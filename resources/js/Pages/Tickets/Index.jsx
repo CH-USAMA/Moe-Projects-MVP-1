@@ -282,4 +282,10 @@ export default function TicketIndex({ tickets, agents, customers, filters, slaSe
                         {tickets.links.map((link, i) => (
                             <Link key={i} href={link.url || '#'} dangerouslySetInnerHTML={{ __html: link.label }}
                                 className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${link.active ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20' : link.url ? 'text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800' : 'text-slate-400 dark:text-slate-700 cursor-not-allowed'}`} />
-                  
+                        ))}
+                    </div>
+                )}
+            </div>
+        </AuthenticatedLayout>
+    );
+}

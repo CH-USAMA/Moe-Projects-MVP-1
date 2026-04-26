@@ -32,4 +32,11 @@
     .prose-email li {
         margin-bottom: 0.25rem;
     }
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 }
