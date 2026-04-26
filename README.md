@@ -2,27 +2,23 @@
 
 Moe Limo is a premium, omnichannel operations and ticket management platform designed for the modern limousine and transport industry. It centralizes communications from Email, GoHighLevel, and SMS into a single, high-performance dashboard.
 
-![Moe Limo Dashboard](https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg) *Placeholder for actual UI screenshot*
-
 ## 🚀 Key Features
 
 - **Omnichannel Inbox:** Unified view for Email (IMAP/SMTP), GoHighLevel Opportunities, and SMS (Mobile Text Alerts).
+- **Gmail-Style Categorization:** Organize your inbox with **Important**, **Primary**, and **Casual** tabs based on customer profiles.
+- **Visual Analytics:** Premium dashboard with custom SVG charts for Service Distribution and Status Breakdowns.
 - **SLA & Alerting System:** Dynamic visual indicators (Green/Orange/Red) with custom time thresholds to ensure zero missed inquiries.
 - **Smart Automations:** IF/THEN rules engine for auto-assignment, prioritization, and automated SMS/Email alerts.
-- **Team Management:** Full RBAC (Role-Based Access Control) for Admins and Agents.
-- **Customer CRM:** Deep customer profiles with engagement history, tag management, and manual GHL synchronization.
-- **Premium UI:** Fully responsive React interface with native Light/Dark mode support.
+- **Audit Logging:** Comprehensive tracking of all user activity (Ticket creation, replies, deletions, and customer updates).
+- **PWA & Mobile Ready:** Install as a native app on iOS/Android with push notifications and a fully responsive interface.
 
-## 🛠 Tech Stack
+## 📱 Mobile & PWA Installation
 
-- **Backend:** Laravel 13 (PHP 8.3+)
-- **Frontend:** React + Inertia.js
-- **Styling:** Tailwind CSS v4
-- **Database:** SQLite (default) / MySQL compatible
-- **Integrations:** 
-    - **Email:** Webklex IMAP / Laravel SMTP
-    - **GHL:** Webhook-based Opportunity Sync
-    - **SMS:** Mobile Text Alerts V3 API
+The platform is 100% mobile responsive and designed as a **Progressive Web App (PWA)**.
+
+1. **iOS:** Open in Safari, tap the 'Share' icon, and select **'Add to Home Screen'**.
+2. **Android:** Open in Chrome, tap the three dots, and select **'Install App'**.
+3. **Desktop:** Click the install icon in the address bar to run as a standalone desktop app.
 
 ## 🏁 Getting Started
 
@@ -34,59 +30,44 @@ Moe Limo is a premium, omnichannel operations and ticket management platform des
 
 ### Installation
 
-1. **Clone the repository:**
+1. **Clone and Install:**
    ```bash
-   git clone https://github.com/your-repo/moe-limo-hub.git
-   cd moe-limo-hub
+   git clone <repo-url>
+   composer install && npm install
    ```
 
-2. **Install dependencies:**
-   ```bash
-   composer install
-   npm install
-   ```
-
-3. **Configure Environment:**
+2. **Environment & Database:**
    ```bash
    cp .env.example .env
    php artisan key:generate
-   ```
-
-4. **Database Setup:**
-   ```bash
    php artisan migrate --seed
    ```
-   *Default Admin: `admin@moelimo.com` / `password`*
 
-5. **Build Assets:**
+3. **Build & Run:**
    ```bash
    npm run build
-   ```
-
-6. **Start the Application:**
-   ```bash
    php artisan serve
    ```
 
+### 🔐 Default Credentials
+
+- **Superadmin:** `superadmin@moelimo.com` / `moelimo2026`
+- **Standard Admin:** `admin@moelimo.com` / `password`
+
 ## 📡 Webhook Configuration
 
-To enable real-time inbound synchronization, configure the following endpoints in your external platforms:
-
 - **GoHighLevel:** `POST /webhooks/ghl`
-- **SMS (Mobile Text Alerts):** `POST /webhooks/sms`
-- **Inbound Email:** `POST /webhooks/inbound-email`
+- **SMS:** `POST /webhooks/sms` (Use the "Register Webhook" button in SMS settings to auto-configure).
+- **Email:** `POST /webhooks/inbound-email`
 
 ## ⚙️ Background Tasks
 
-To handle automated email fetching and SLA calculations, ensure the Laravel Scheduler is running:
+Ensure the Laravel Scheduler is running to handle Live Sync and SLA monitoring:
 
 ```bash
-# Local development
 php artisan schedule:work
-
-# Production (Cron)
-* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
 ```
 
 ## 📄 License
 The Moe Limo Hub is proprietary software. Licensed under the MIT license.
+
