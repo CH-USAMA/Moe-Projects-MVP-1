@@ -11,6 +11,7 @@
         "laravel/framework": "^13.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^3.0",
+        "minishlink/web-push": "^10.0",
         "tightenco/ziggy": "^2.0",
         "webklex/laravel-imap": "^6.2"
     },
@@ -27,7 +28,8 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Minishlink\\WebPush\\": "vendor/minishlink/web-push/src/"
         }
     },
     "autoload-dev": {

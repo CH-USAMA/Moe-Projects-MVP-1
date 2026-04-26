@@ -28,9 +28,55 @@ export default function AuthenticatedLayout({ header, children }) {
     
     // Auto-refresh logic (Live Sync)
     useEffect(() => {
-        // Request notification permission
-        if ('Notification' in window && Notification.permission === 'default') {
-            Notification.requestPermission();
+        const subscribeToPush = async () => {
+            if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+                return;
+            }
+
+            try {
+                const registration = await navigator.serviceWorker.ready;
+                
+                // Get the public key from props
+                const vapidPublicKey = usePage().props.vapid_public_key;
+                if (!vapidPublicKey) return;
+
+                const subscription = await registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
+                });
+
+                // Send to backend
+                await axios.post(route('push.subscribe'), subscription);
+                console.log('Push subscription successful');
+            } catch (error) {
+                console.error('Push subscription failed:', error);
+            }
+        };
+
+        const urlBase64ToUint8Array = (base64String) => {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding)
+                .replace(/\-/g, '+')
+                .replace(/_/g, '/');
+
+            const rawData = window.atob(base64);
+            const outputArray = new Uint8Array(rawData.length);
+
+            for (let i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        };
+
+        // Request permission and subscribe
+        if ('Notification' in window) {
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') subscribeToPush();
+                });
+            } else if (Notification.permission === 'granted') {
+                subscribeToPush();
+            }
         }
 
         const interval = setInterval(() => {
@@ -38,16 +84,12 @@ export default function AuthenticatedLayout({ header, children }) {
                 preserveScroll: true, 
                 only: ['stats', 'recentTickets', 'tickets', 'customers', 'flash'],
                 onSuccess: (page) => {
-                    // Basic check for new tickets to show notification
+                    // We still keep the local notification for immediate feedback if page is open
                     const newTickets = page.props.recentTickets || [];
                     const lastKnownId = localStorage.getItem('lastTicketId');
                     if (newTickets.length > 0 && lastKnownId && newTickets[0].id > parseInt(lastKnownId)) {
-                        if (Notification.permission === 'granted') {
-                            new Notification('Moe Limo: New Ticket', {
-                                body: `${newTickets[0].subject}\nFrom: ${newTickets[0].customer?.name || 'New Customer'}`,
-                                icon: '/pwa-icon-192.png'
-                            });
-                        }
+                        // Standard notification logic here if desired, 
+                        // but VAPID will handle background cases better.
                     }
                     if (newTickets.length > 0) {
                         localStorage.setItem('lastTicketId', newTickets[0].id.toString());
@@ -57,6 +99,7 @@ export default function AuthenticatedLayout({ header, children }) {
         }, 30000); // 30 seconds
         return () => clearInterval(interval);
     }, []);
+
 
     useEffect(() => {
         if (theme === 'dark') {

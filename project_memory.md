@@ -42,9 +42,11 @@ This document serves as the "AI Memory" for the Moe Limo project. When starting 
   - Multi-source Inbound (Email, GHL Opportunity, SMS).
   - SLA & Alerting system with custom thresholds/colors.
 - **Next Potential Epics:**
+  - Native Web Push Notifications (VAPID) - INTEGRATED.
   - Advanced reporting and analytics.
   - S3 Storage integration for attachments.
   - Real-time WebSockets (Pusher/Reverb).
+
   
 ## Rules for AI Interaction
 - Do not over-engineer.
