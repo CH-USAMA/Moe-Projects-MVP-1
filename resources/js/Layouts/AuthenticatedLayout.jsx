@@ -164,7 +164,8 @@ export default function AuthenticatedLayout({ header, children }) {
                     ))}
 
                     {/* Settings section */}
-                    {user.role === 'admin' && (
+                    {user.role === 'superadmin' && (
+
                         <div className="pt-4">
                             <button
                                 onClick={() => setSettingsOpen(!settingsOpen)}

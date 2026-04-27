@@ -15,7 +15,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create an admin user for the user to log in with
+        // Create a superadmin user
+        $superadmin = User::factory()->create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@moelimo.com',
+            'password' => bcrypt('moelimo2026'),
+            'role' => 'superadmin',
+        ]);
+
+        // Create an admin user
         $admin = User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@moelimo.com',
@@ -25,7 +33,8 @@ class DatabaseSeeder extends Seeder
 
         // Create some agents
         $agents = User::factory(3)->create(['role' => 'agent']);
-        $allUsers = $agents->push($admin);
+        $allUsers = $agents->push($admin)->push($superadmin);
+
 
         // Create Customers
         $customers = \App\Models\Customer::factory(15)->create();

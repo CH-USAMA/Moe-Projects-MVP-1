@@ -24,5 +24,10 @@ class AppServiceProvider extends ServiceProvider
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
         Vite::prefetch(concurrency: 3);
+
+        \Illuminate\Support\Facades\Gate::define('superadmin', function (\App\Models\User $user) {
+            return $user->role === 'superadmin';
+        });
     }
+
 }

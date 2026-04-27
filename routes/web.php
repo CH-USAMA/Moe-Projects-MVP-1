@@ -50,7 +50,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/customers/{customer}/sync-ghl', [CustomerController::class, 'syncGHL'])->name('customers.sync-ghl');
 
     // Settings
-    Route::prefix('settings')->name('settings.')->group(function () {
+    Route::prefix('settings')->middleware('can:superadmin')->name('settings.')->group(function () {
+
         Route::get('/email', [SettingsController::class, 'email'])->name('email');
         Route::post('/email', [SettingsController::class, 'updateEmail'])->name('email.update');
 
