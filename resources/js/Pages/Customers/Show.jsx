@@ -173,7 +173,7 @@ export default function CustomerShow({ customer }) {
                                                         key={cat.id} 
                                                         type="button" 
                                                         onClick={() => form.setData('category', cat.id)}
-                                                        className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest border transition-all ${form.data.category === cat.id ? 'bg-amber-500 border-amber-500 text-black shadow-lg shadow-amber-500/20' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}`}
+                                                        className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest border transition-all ${form.data.category === cat.id ? 'bg-amber-500 border-amber-500 text-black shadow-lg shadow-amber-500/20' : 'bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'}`}
                                                     >
                                                         {cat.icon} {cat.label}
                                                     </button>
@@ -185,16 +185,16 @@ export default function CustomerShow({ customer }) {
                                             <label className="flex items-center gap-3 cursor-pointer group">
                                                 <div className="relative inline-flex items-center">
                                                     <input type="checkbox" checked={form.data.notifications_enabled} onChange={e => form.setData('notifications_enabled', e.target.checked)} className="sr-only peer" />
-                                                    <div className="w-11 h-6 bg-white/5 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                                                    <div className="w-11 h-6 bg-gray-200 dark:bg-white/5 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                                                 </div>
-                                                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest group-hover:text-white transition-colors">Alerts</span>
+                                                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Alerts</span>
                                             </label>
                                             <label className="flex items-center gap-3 cursor-pointer group">
                                                 <div className="relative inline-flex items-center">
                                                     <input type="checkbox" checked={form.data.logging_enabled} onChange={e => form.setData('logging_enabled', e.target.checked)} className="sr-only peer" />
-                                                    <div className="w-11 h-6 bg-white/5 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+                                                    <div className="w-11 h-6 bg-gray-200 dark:bg-white/5 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
                                                 </div>
-                                                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest group-hover:text-white transition-colors">Logging</span>
+                                                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Logging</span>
                                             </label>
                                         </div>
                                     </div>
@@ -211,7 +211,7 @@ export default function CustomerShow({ customer }) {
                                                         animate={{ opacity: 1, scale: 1 }}
                                                         exit={{ opacity: 0, scale: 0.8 }}
                                                         key={tag} 
-                                                        className="inline-flex items-center gap-2 text-[10px] bg-white/5 text-gray-300 px-4 py-2 rounded-xl font-bold uppercase tracking-wider border border-white/5 shadow-sm group/tag"
+                                                        className="inline-flex items-center gap-2 text-[10px] bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-xl font-bold uppercase tracking-wider border border-gray-200 dark:border-white/5 shadow-sm group/tag"
                                                     >
                                                         {tag}
                                                         <button 
