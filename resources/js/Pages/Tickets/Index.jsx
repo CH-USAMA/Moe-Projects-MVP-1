@@ -131,49 +131,58 @@ export default function TicketIndex({ tickets, agents, customers, filters, slaSe
                             </p>
                         </div>
                         <div className="flex items-center gap-4">
-                            <button 
-                                onClick={() => setShowCreate(!showCreate)} 
-                                className="px-10 py-5 bg-white text-black rounded-2xl text-[10px] font-bold uppercase tracking-[0.3em] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-white/5 whitespace-nowrap flex items-center justify-center gap-3 group"
-                            >
                                 <Plus size={16} className="group-hover:rotate-90 transition-transform duration-300" /> 
-                                Create Ticket
+                                Add Ticket
                             </button>
                         </div>
                     </div>
 
-                    {/* Navigation & Search */}
-                    <div className="grid lg:grid-cols-12 gap-8">
-                        <div className="lg:col-span-8 flex items-center gap-1 bg-gray-100 dark:bg-white/[0.03] backdrop-blur-md border border-gray-200 dark:border-white/10 rounded-[2rem] p-1.5 overflow-x-auto no-scrollbar">
+                    {/* Navigation & Search & PerPage */}
+                    <div className="flex flex-col xl:flex-row gap-6">
+                        <div className="flex-1 flex items-center gap-1 bg-gray-100 dark:bg-white/[0.03] backdrop-blur-md border border-gray-200 dark:border-white/10 rounded-2xl p-1 overflow-x-auto no-scrollbar">
                             {[
-                                { id: '', label: 'All Tickets', icon: Inbox },
-                                { id: 'important', label: 'Priority', icon: Star },
+                                { id: '', label: 'All', icon: Inbox },
+                                { id: 'important', label: 'Important', icon: Star },
                                 { id: 'normal', label: 'Primary', icon: LayoutGrid },
                                 { id: 'casual', label: 'Secondary', icon: Coffee },
                             ].map((tab) => (
                                 <button 
                                     key={tab.id}
                                     onClick={() => applyFilter('category', tab.id)}
-                                    className={`flex items-center gap-3 px-8 py-4 rounded-[1.5rem] text-[10px] font-bold uppercase tracking-[0.2em] transition-all whitespace-nowrap group ${
+                                    className={`flex items-center gap-2.5 px-6 py-3 rounded-xl text-[9px] font-bold uppercase tracking-[0.2em] transition-all whitespace-nowrap group ${
                                         (filters.category || '') === tab.id 
                                             ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20' 
-                                            : 'text-gray-500 hover:text-white hover:bg-white/5'
+                                            : 'text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-white/5'
                                     }`}
                                 >
-                                    <tab.icon size={14} />
+                                    <tab.icon size={12} />
                                     {tab.label}
                                 </button>
                             ))}
                         </div>
 
-                        <div className="lg:col-span-4 relative group">
-                            <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-amber-500 transition-colors" size={18} />
-                            <input
-                                type="text"
-                                placeholder="Search subject, customer, or message..."
-                                defaultValue={filters.search || ''}
-                                onKeyDown={(e) => e.key === 'Enter' && applyFilter('search', e.target.value)}
-                                className="w-full bg-gray-100 dark:bg-white/[0.03] backdrop-blur-md border border-gray-200 dark:border-white/10 rounded-[2rem] pl-16 pr-8 py-5 text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all shadow-inner"
-                            />
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <div className="relative group min-w-[300px]">
+                                <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-amber-500 transition-colors" size={16} />
+                                <input
+                                    type="text"
+                                    placeholder="Search..."
+                                    defaultValue={filters.search || ''}
+                                    onKeyDown={(e) => e.key === 'Enter' && applyFilter('search', e.target.value)}
+                                    className="w-full bg-gray-100 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 rounded-2xl pl-12 pr-6 py-3.5 text-xs text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-amber-500/20 transition-all shadow-inner"
+                                />
+                            </div>
+
+                            <div className="flex items-center gap-3 px-5 py-3 bg-gray-100 dark:bg-white/[0.03] border border-gray-200 dark:border-white/10 rounded-2xl">
+                                <Activity size={14} className="text-gray-500" />
+                                <select 
+                                    value={filters.per_page || '20'} 
+                                    onChange={(e) => applyFilter('per_page', e.target.value)} 
+                                    className="bg-transparent border-none text-[9px] font-bold uppercase tracking-widest text-gray-600 dark:text-gray-400 focus:ring-0 cursor-pointer p-0"
+                                >
+                                    {[10, 20, 50, 100].map(v => <option key={v} value={v} className="bg-[#0a0a0a]">{v} / page</option>)}
+                                </select>
+                            </div>
                         </div>
                     </div>
 
@@ -307,28 +316,26 @@ export default function TicketIndex({ tickets, agents, customers, filters, slaSe
                     animate={{ opacity: 1, y: 0 }}
                     className="bg-white dark:bg-white/[0.03] backdrop-blur-md border border-gray-200 dark:border-white/10 rounded-[3rem] overflow-hidden shadow-sm"
                 >
-                    <div className="px-12 py-8 border-b border-white/5 bg-white/[0.01] flex items-center justify-between">
-                        <div className="flex items-center gap-6">
+                    <div className="px-8 py-4 border-b border-white/5 bg-white/[0.01] flex items-center justify-between">
+                        <div className="flex items-center gap-4">
                             <input 
                                 type="checkbox" 
                                 onChange={toggleSelectAll} 
                                 checked={selectedIds.length === tickets.data.length && tickets.data.length > 0} 
-                                className="rounded-lg bg-gray-100 dark:bg-black border-gray-300 dark:border-white/10 text-amber-500 focus:ring-amber-500/20 w-6 h-6 transition-all" 
+                                className="rounded-lg bg-gray-100 dark:bg-black border-gray-300 dark:border-white/10 text-amber-500 focus:ring-amber-500/20 w-5 h-5 transition-all" 
                             />
                             <div>
-                                <span className="text-[11px] font-bold text-gray-900 dark:text-white uppercase tracking-[0.4em]">Current Tickets</span>
-                                <p className="text-[9px] font-bold text-gray-600 uppercase tracking-widest mt-1">Manage and respond to customer tickets</p>
+                                <span className="text-[10px] font-bold text-gray-900 dark:text-white uppercase tracking-[0.4em]">Current Tickets</span>
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
-                            <div className="flex -space-x-2">
-                                {agents?.slice(0, 3).map((a, i) => (
-                                    <div key={i} className="w-8 h-8 rounded-full border-2 border-white dark:border-[#0a0a0a] bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-[8px] font-bold text-gray-700 dark:text-white" title={a.name}>
+                            <div className="flex -space-x-1.5">
+                                {agents?.slice(0, 4).map((a, i) => (
+                                    <div key={i} className="w-7 h-7 rounded-full border-2 border-white dark:border-[#0a0a0a] bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-[7px] font-bold text-gray-700 dark:text-white" title={a.name}>
                                         {a.name.split(' ').map(n => n[0]).join('')}
                                     </div>
                                 ))}
                             </div>
-                            <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest ml-2">Team Members</span>
                         </div>
                     </div>
                     
@@ -346,96 +353,94 @@ export default function TicketIndex({ tickets, agents, customers, filters, slaSe
                             const SourceIcon = SOURCE_ICONS[ticket.source] || Edit3;
                             return (
                                 <motion.div 
-                                    initial={{ opacity: 0, x: -20 }}
+                                    initial={{ opacity: 0, x: -10 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: index * 0.03 }}
+                                    transition={{ delay: index * 0.02 }}
                                     key={ticket.id} 
-                                    className={`flex items-center gap-8 px-12 py-8 hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-all group relative overflow-hidden ${!ticket.is_read ? 'bg-amber-500/[0.02]' : ''}`}
+                                    className={`flex items-center gap-6 px-8 py-4 hover:bg-gray-100 dark:hover:bg-white/[0.04] transition-all group relative overflow-hidden ${
+                                        selectedIds.includes(ticket.id) 
+                                            ? 'bg-amber-500/10 dark:bg-amber-500/[0.05]' 
+                                            : !ticket.is_read 
+                                                ? 'bg-amber-500/[0.02]' 
+                                                : ''
+                                    }`}
                                 >
                                     <input 
                                         type="checkbox" 
                                         checked={selectedIds.includes(ticket.id)} 
                                         onChange={() => toggleSelect(ticket.id)} 
-                                        className="rounded-lg bg-gray-100 dark:bg-black border-gray-300 dark:border-white/10 text-amber-500 focus:ring-amber-500/20 w-6 h-6 transition-all relative z-10" 
+                                        className="rounded-lg bg-gray-100 dark:bg-black border-gray-300 dark:border-white/10 text-amber-500 focus:ring-amber-500/20 w-5 h-5 transition-all relative z-10" 
                                     />
                                     
-                                    <Link href={route('tickets.show', ticket.id)} className="flex-1 min-w-0 flex flex-col md:flex-row md:items-center gap-8">
-                                        <div className="flex-1 min-w-0 flex items-center gap-8">
-                                            <div className="shrink-0 flex flex-col items-center gap-3">
-                                                <div className={`w-3 h-3 rounded-full ${PRIORITY_DOTS[ticket.priority]} shadow-lg`} />
+                                    <Link href={route('tickets.show', ticket.id)} className="flex-1 min-w-0 flex flex-col md:flex-row md:items-center gap-6">
+                                        <div className="flex-1 min-w-0 flex items-center gap-6">
+                                            <div className="shrink-0 flex flex-col items-center gap-2">
+                                                <div className={`w-2.5 h-2.5 rounded-full ${PRIORITY_DOTS[ticket.priority]} shadow-lg`} />
                                                 {sla && (
-                                                    <motion.div 
-                                                        animate={{ scale: [1, 1.2, 1] }} 
-                                                        transition={{ repeat: Infinity, duration: 2 }}
-                                                        className="w-2.5 h-2.5 rounded-full" 
-                                                        style={{ backgroundColor: sla.color, boxShadow: `0 0 10px ${sla.color}60` }} 
+                                                    <div 
+                                                        className="w-2 h-2 rounded-full" 
+                                                        style={{ backgroundColor: sla.color, boxShadow: `0 0 8px ${sla.color}60` }} 
                                                     />
                                                 )}
                                             </div>
 
                                             <div className="flex-1 min-w-0">
-                                                <div className="flex items-center gap-4 mb-3">
-                                                    <span className="text-gray-600 text-[10px] font-mono tracking-tighter">ID #{ticket.id}</span>
-                                                    <div className="p-1.5 rounded-lg bg-gray-100 dark:bg-white/5 text-gray-500 group-hover:text-amber-500 transition-colors">
-                                                        <SourceIcon size={12} />
-                                                    </div>
-                                                    <span className={`text-[9px] px-3 py-1 rounded-xl font-bold uppercase tracking-[0.2em] border ${STATUS_COLORS[ticket.status]}`}>
+                                                <div className="flex items-center gap-3 mb-1">
+                                                    <span className="text-gray-500 text-[9px] font-mono tracking-tighter">#{ticket.id}</span>
+                                                    <SourceIcon size={10} className="text-gray-500" />
+                                                    <span className={`text-[8px] px-2 py-0.5 rounded-lg font-bold uppercase tracking-wider border ${STATUS_COLORS[ticket.status]}`}>
                                                         {ticket.status}
                                                     </span>
                                                     {!ticket.is_read && (
-                                                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex items-center gap-2">
-                                                            <div className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.6)]" />
-                                                            <span className="text-[8px] font-bold text-amber-500 uppercase tracking-widest">New</span>
-                                                        </motion.div>
+                                                        <div className="flex items-center gap-1.5">
+                                                            <div className="w-1.5 h-1.5 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.6)]" />
+                                                            <span className="text-[7px] font-bold text-amber-500 uppercase tracking-widest">New</span>
+                                                        </div>
                                                     )}
                                                 </div>
-                                                <h4 className={`text-base font-medium tracking-tight transition-colors group-hover:text-amber-500 ${!ticket.is_read ? 'text-gray-900 dark:text-white' : 'text-gray-400'}`}>
+                                                <h4 className={`text-sm font-semibold tracking-tight transition-colors group-hover:text-amber-500 truncate ${!ticket.is_read ? 'text-gray-900 dark:text-white' : 'text-gray-400'}`}>
                                                     {ticket.subject}
                                                 </h4>
-                                                <div className="flex items-center gap-3 mt-2">
-                                                    <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">{ticket.customer?.name || ticket.customer?.email}</span>
-                                                    <div className="w-1 h-1 rounded-full bg-gray-800" />
-                                                    <span className="text-[9px] text-gray-700 font-bold uppercase tracking-widest">Source: {ticket.source}</span>
+                                                <div className="flex items-center gap-3 mt-1">
+                                                    <span className="text-[9px] text-gray-500 font-bold uppercase tracking-widest truncate max-w-[200px]">{ticket.customer?.name || ticket.customer?.email}</span>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center justify-between md:justify-end gap-10 min-w-[240px]">
-                                            <div className="text-right flex flex-col items-end gap-2">
+                                        <div className="flex items-center justify-between md:justify-end gap-8 min-w-[200px]">
+                                            <div className="text-right flex flex-col items-end gap-1">
                                                 {sla ? (
-                                                    <div className="flex items-center gap-2.5 px-4 py-1.5 rounded-full border text-[9px] font-bold uppercase tracking-widest transition-all" 
+                                                    <div className="flex items-center gap-2 px-3 py-1 rounded-full border text-[8px] font-bold uppercase tracking-widest transition-all" 
                                                         style={{ color: sla.color, borderColor: `${sla.color}40`, backgroundColor: `${sla.color}10` }}>
-                                                        <Clock size={10} />
-                                                        Open for: {getTimeOpenLabel(ticket.created_at)}
+                                                        <Clock size={8} />
+                                                        {getTimeOpenLabel(ticket.created_at)}
                                                     </div>
                                                 ) : (
-                                                    <span className="text-[10px] text-gray-600 font-bold tracking-widest uppercase">Open for: {getTimeOpenLabel(ticket.created_at)}</span>
+                                                    <span className="text-[9px] text-gray-500 font-bold tracking-widest uppercase">{getTimeOpenLabel(ticket.created_at)}</span>
                                                 )}
-                                                <div className="flex items-center gap-2">
-                                                    <User size={10} className="text-gray-600" />
-                                                    <span className="text-[9px] text-gray-600 font-bold uppercase tracking-widest">{ticket.assigned_agent?.name || 'Unassigned'}</span>
+                                                <div className="flex items-center gap-1.5">
+                                                    <User size={9} className="text-gray-500" />
+                                                    <span className="text-[8px] text-gray-500 font-bold uppercase tracking-widest">{ticket.assigned_agent?.name?.split(' ')[0] || 'Unassigned'}</span>
                                                 </div>
                                             </div>
 
-                                            <ChevronRight size={20} className="text-gray-800 group-hover:text-amber-500 group-hover:translate-x-2 transition-all duration-300" />
+                                            <ChevronRight size={16} className="text-gray-400 group-hover:text-amber-500 group-hover:translate-x-1 transition-all" />
                                         </div>
                                     </Link>
 
                                     {/* Actions Overlay */}
-                                    <div className="absolute right-12 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all translate-x-10 group-hover:translate-x-0 hidden xl:flex items-center gap-3">
+                                    <div className="absolute right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all translate-x-5 group-hover:translate-x-0 hidden xl:flex items-center gap-2">
                                         <button 
                                             onClick={(e) => { e.preventDefault(); router.post(route('tickets.toggle-read', ticket.id), {}, { preserveScroll: true }); }}
-                                            className="p-4 rounded-2xl bg-gray-100 dark:bg-white/5 text-gray-500 hover:text-amber-500 hover:bg-gray-200 dark:hover:bg-white/10 transition-all border border-gray-200 dark:border-white/5"
-                                            title={ticket.is_read ? 'Mark as Unread' : 'Mark as Read'}
+                                            className="p-2.5 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-500 hover:text-amber-500 hover:bg-gray-200 dark:hover:bg-white/10 transition-all border border-gray-200 dark:border-white/5"
                                         >
-                                            {ticket.is_read ? <Eye size={18} /> : <EyeOff size={18} />}
+                                            {ticket.is_read ? <Eye size={14} /> : <EyeOff size={14} />}
                                         </button>
                                         <button 
-                                            onClick={(e) => { e.preventDefault(); if(confirm('Are you sure you want to delete this ticket?')) router.delete(route('tickets.destroy', ticket.id), { preserveScroll: true }); }}
-                                            className="p-4 rounded-2xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all border border-red-500/10 shadow-xl shadow-red-500/5"
-                                            title="Delete Ticket"
+                                            onClick={(e) => { e.preventDefault(); if(confirm('Are you sure?')) router.delete(route('tickets.destroy', ticket.id), { preserveScroll: true }); }}
+                                            className="p-2.5 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all border border-red-500/10"
                                         >
-                                            <Trash2 size={18} />
+                                            <Trash2 size={14} />
                                         </button>
                                     </div>
                                 </motion.div>
@@ -453,10 +458,10 @@ export default function TicketIndex({ tickets, agents, customers, filters, slaSe
                                     dangerouslySetInnerHTML={{ __html: link.label }}
                                     className={`px-6 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-[0.3em] transition-all ${
                                         link.active 
-                                            ? 'bg-amber-500 text-white dark:bg-white dark:text-black shadow-2xl shadow-amber-500/20' 
+                                            ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20' 
                                             : link.url 
-                                                ? 'text-gray-500 hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10' 
-                                                : 'text-gray-800 cursor-not-allowed'
+                                                ? 'text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-white/5 border border-transparent' 
+                                                : 'text-gray-300 dark:text-gray-800 cursor-not-allowed'
                                     }`} 
                                 />
                             ))}

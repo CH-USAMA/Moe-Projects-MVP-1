@@ -86,7 +86,10 @@ class TicketController extends Controller
             });
         }
 
-        $tickets = $query->latest('last_message_at')->paginate(20)->withQueryString();
+        $perPage = $request->integer('per_page', 20);
+        if ($perPage > 100) $perPage = 100; // Cap it
+
+        $tickets = $query->latest('last_message_at')->paginate($perPage)->withQueryString();
         $agents = User::select('id', 'name')->get();
         $customers = \App\Models\Customer::select('id', 'name', 'email')->get();
 
@@ -95,7 +98,7 @@ class TicketController extends Controller
             'agents' => $agents,
             'customers' => $customers,
             'slaSettings' => app(\App\Services\SettingsService::class)->getGroup('sla'),
-            'filters' => $request->only(['status', 'priority', 'source', 'assigned_to', 'search', 'date_range', 'start_date', 'end_date', 'customer_id', 'category']),
+            'filters' => $request->only(['status', 'priority', 'source', 'assigned_to', 'search', 'date_range', 'start_date', 'end_date', 'customer_id', 'category', 'per_page']),
         ]);
     }
 

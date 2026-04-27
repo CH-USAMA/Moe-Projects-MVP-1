@@ -186,7 +186,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                                 href={route(item.route)}
                                                 className={`flex items-center gap-4 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                                                     isActive(item.route)
-                                                        ? 'bg-amber-500/5 text-amber-500'
+                                                        ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
                                                         : 'text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
                                                 }`}
                                             >

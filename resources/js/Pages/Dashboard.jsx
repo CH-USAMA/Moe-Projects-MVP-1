@@ -19,7 +19,7 @@ const COLORS = ['#d97706', '#10b981', '#3b82f6', '#8b5cf6', '#ef4444'];
 const StatCard = ({ label, value, color, icon: Icon, trend }) => (
     <motion.div 
         whileHover={{ y: -5 }}
-        className="bg-gray-50 dark:bg-[#0a0a0a] border border-gray-100 dark:border-white/5 rounded-2xl p-6 hover:shadow-xl hover:shadow-amber-500/5 transition-all group"
+        className="bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/5 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:shadow-amber-500/10 transition-all group"
     >
         <div className="flex items-center justify-between mb-4">
             <div className={`p-2.5 rounded-xl ${color} bg-opacity-10`}>
@@ -73,7 +73,7 @@ export default function Dashboard({ stats, charts, recentTickets, agentStats, sl
                     <p className="text-sm text-gray-500 mt-1 uppercase tracking-widest text-[10px]">Real-time ticket and performance metrics</p>
                 </div>
                 
-                <div className="flex items-center gap-4 bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/5 rounded-2xl px-5 py-2.5 shadow-sm">
+                <div className="flex items-center gap-4 bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/5 rounded-2xl px-5 py-2.5 shadow-sm">
                     <Filter size={14} className="text-gray-400" />
                     <select 
                         value={filters.date_range} 
@@ -104,7 +104,7 @@ export default function Dashboard({ stats, charts, recentTickets, agentStats, sl
                 <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/5 rounded-3xl p-8"
+                    className="bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/5 rounded-3xl p-8 shadow-sm"
                 >
                     <div className="flex items-center justify-between mb-8">
                         <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Ticket Sources</h3>
@@ -164,7 +164,7 @@ export default function Dashboard({ stats, charts, recentTickets, agentStats, sl
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/5 rounded-3xl p-8"
+                    className="bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/5 rounded-3xl p-8 shadow-sm"
                 >
                     <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-8">Ticket Status</h3>
                     <div className="space-y-6">
@@ -196,7 +196,7 @@ export default function Dashboard({ stats, charts, recentTickets, agentStats, sl
             {/* Detailed Analytics */}
             <div className="grid lg:grid-cols-3 gap-8">
                 {/* Recent Tickets */}
-                <div className="lg:col-span-2 bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/5 rounded-3xl overflow-hidden shadow-sm">
+                <div className="lg:col-span-2 bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/5 rounded-3xl overflow-hidden shadow-sm">
                     <div className="px-8 py-6 border-b border-gray-200 dark:border-white/5 flex items-center justify-between">
                         <h2 className="text-gray-900 dark:text-white font-bold tracking-tight">Recent Tickets</h2>
                         <Link href={route('tickets.index')} className="text-amber-500 text-[10px] font-bold uppercase tracking-[0.2em] hover:text-amber-400 transition-all flex items-center gap-2 group">
@@ -211,7 +211,7 @@ export default function Dashboard({ stats, charts, recentTickets, agentStats, sl
                         {recentTickets?.map((ticket) => {
                             const sla = getSLAStyle(ticket);
                             return (
-                                <Link key={ticket.id} href={route('tickets.show', ticket.id)} className="flex items-center gap-6 px-8 py-5 hover:bg-white dark:hover:bg-white/5 transition-all group">
+                                <Link key={ticket.id} href={route('tickets.show', ticket.id)} className="flex items-center gap-6 px-8 py-5 hover:bg-gray-50 dark:hover:bg-white/5 transition-all group">
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-3 mb-2">
                                             <span className="text-gray-400 text-[10px] font-mono tracking-tighter">#{ticket.id}</span>
@@ -240,7 +240,7 @@ export default function Dashboard({ stats, charts, recentTickets, agentStats, sl
                 </div>
 
                 {/* Agent Efficiency */}
-                <div className="bg-gray-50 dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/5 rounded-3xl overflow-hidden shadow-sm">
+                <div className="bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/5 rounded-3xl overflow-hidden shadow-sm">
                     <div className="px-8 py-6 border-b border-gray-200 dark:border-white/5 flex items-center gap-3">
                         <TrendingUp size={16} className="text-amber-500" />
                         <h2 className="text-gray-900 dark:text-white font-bold tracking-tight">Agent Performance</h2>

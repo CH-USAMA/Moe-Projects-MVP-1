@@ -118,11 +118,12 @@ export default function CustomerIndex({ customers, filters }) {
                                             />
                                         </div>
                                     </th>
-                                    <th className="px-6 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">Customer Identity</th>
-                                    <th className="px-6 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">Contact Details</th>
-                                    <th className="px-6 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">Engagement</th>
-                                    <th className="px-6 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] hidden md:table-cell">Tags</th>
-                                    <th className="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] text-right">Actions</th>
+                                    <th className="px-6 py-4 text-[9px] font-bold text-gray-500 uppercase tracking-[0.2em]">Customer Identity</th>
+                                    <th className="px-6 py-4 text-[9px] font-bold text-gray-500 uppercase tracking-[0.2em]">Category</th>
+                                    <th className="px-6 py-4 text-[9px] font-bold text-gray-500 uppercase tracking-[0.2em]">Contact Details</th>
+                                    <th className="px-6 py-4 text-[9px] font-bold text-gray-500 uppercase tracking-[0.2em]">Engagement</th>
+                                    <th className="px-6 py-4 text-[9px] font-bold text-gray-500 uppercase tracking-[0.2em] hidden md:table-cell">Tags</th>
+                                    <th className="px-8 py-4 text-[9px] font-bold text-gray-500 uppercase tracking-[0.2em] text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-white/5">
@@ -144,7 +145,9 @@ export default function CustomerIndex({ customers, filters }) {
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: idx * 0.03 }}
                                         key={c.id} 
-                                        className="hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors group cursor-pointer"
+                                        className={`hover:bg-gray-100 dark:hover:bg-white/[0.02] transition-colors group cursor-pointer ${
+                                            selectedIds.includes(c.id) ? 'bg-amber-500/10 dark:bg-amber-500/5' : ''
+                                        }`}
                                         onClick={() => router.visit(route('customers.show', c.id))}
                                     >
                                         <td className="px-8 py-6" onClick={(e) => e.stopPropagation()}>
@@ -152,62 +155,79 @@ export default function CustomerIndex({ customers, filters }) {
                                                 type="checkbox" 
                                                 checked={selectedIds.includes(c.id)} 
                                                 onChange={() => toggleSelect(c.id)} 
-                                                className="w-5 h-5 rounded-lg border-gray-300 dark:border-white/10 bg-gray-100 dark:bg-white/5 text-amber-500 focus:ring-amber-500/20 transition-all" 
+                                                className="w-5 h-5 rounded-lg border-gray-400 dark:border-white/10 bg-white dark:bg-white/5 text-amber-500 focus:ring-amber-500/20 transition-all" 
                                             />
                                         </td>
-                                        <td className="px-6 py-6">
+                                        <td className="px-6 py-4">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500/20 to-blue-500/10 border border-gray-200 dark:border-white/10 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform">
-                                                    <User size={20} />
+                                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-blue-500/10 border border-gray-200 dark:border-white/10 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform">
+                                                    <User size={18} />
                                                 </div>
                                                 <div>
                                                     <span className="block text-sm font-bold text-gray-900 dark:text-white group-hover:text-amber-500 transition-colors">
-                                                        {c.name || 'Anonymous Customer'}
+                                                        {c.name || 'Anonymous'}
                                                     </span>
-                                                    <span className="block text-[9px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">
-                                                        ID: #{c.id.toString().padStart(5, '0')}
+                                                    <span className="block text-[8px] font-bold text-gray-500 uppercase tracking-widest mt-0.5">
+                                                        #{c.id.toString().padStart(4, '0')}
                                                     </span>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-6">
-                                            <div className="space-y-1.5">
-                                                <div className="flex items-center gap-2 text-xs text-gray-400">
-                                                    <Mail size={12} className="text-blue-400/50" />
-                                                    <span className="font-medium truncate max-w-[200px]">{c.email}</span>
+                                        <td className="px-6 py-4">
+                                            {c.category === 'important' && (
+                                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[8px] font-bold uppercase tracking-widest">
+                                                    <Star size={8} /> VIP
+                                                </span>
+                                            )}
+                                            {c.category === 'normal' && (
+                                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 text-[8px] font-bold uppercase tracking-widest">
+                                                    <Users size={8} /> Primary
+                                                </span>
+                                            )}
+                                            {c.category === 'casual' && (
+                                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-gray-500/10 text-gray-600 dark:text-gray-400 border border-gray-500/20 text-[8px] font-bold uppercase tracking-widest">
+                                                    <Coffee size={8} /> Secondary
+                                                </span>
+                                            )}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="space-y-1">
+                                                <div className="flex items-center gap-2 text-[11px] text-gray-600 dark:text-gray-400">
+                                                    <Mail size={10} />
+                                                    <span className="truncate max-w-[150px]">{c.email}</span>
                                                 </div>
                                                 {c.phone && (
-                                                    <div className="flex items-center gap-2 text-xs text-gray-400">
-                                                        <Phone size={12} className="text-emerald-400/50" />
-                                                        <span className="font-medium">{c.phone}</span>
+                                                    <div className="flex items-center gap-2 text-[11px] text-gray-600 dark:text-gray-400">
+                                                        <Phone size={10} />
+                                                        <span>{c.phone}</span>
                                                     </div>
                                                 )}
                                             </div>
                                         </td>
-                                        <td className="px-6 py-6">
+                                        <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
                                                 <div className="flex flex-col">
                                                     <div className="flex items-center gap-1.5">
-                                                        <Ticket size={12} className="text-amber-500/50" />
-                                                        <span className="text-sm font-bold text-gray-900 dark:text-white">{c.tickets_count}</span>
+                                                        <Ticket size={10} className="text-amber-500" />
+                                                        <span className="text-xs font-bold text-gray-900 dark:text-white">{c.tickets_count}</span>
                                                     </div>
-                                                    <span className="text-[9px] font-bold text-gray-600 uppercase tracking-widest">Total Tickets</span>
+                                                    <span className="text-[7px] font-bold text-gray-500 uppercase tracking-widest">Tickets</span>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-6 hidden md:table-cell">
-                                            <div className="flex flex-wrap gap-2">
-                                                {c.tags?.slice(0, 3).map((tag, i) => (
-                                                    <span key={i} className="text-[9px] bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400 px-2.5 py-1 rounded-lg border border-gray-200 dark:border-white/5 font-bold uppercase tracking-wider">
+                                        <td className="px-6 py-4 hidden md:table-cell">
+                                            <div className="flex flex-wrap gap-1">
+                                                {c.tags?.slice(0, 2).map((tag, i) => (
+                                                    <span key={i} className="text-[7px] bg-gray-50 dark:bg-white/5 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md border border-gray-200 dark:border-white/5 font-bold uppercase tracking-wider">
                                                         {tag}
                                                     </span>
                                                 ))}
-                                                {c.tags?.length > 3 && (
-                                                    <span className="text-[9px] text-gray-600 font-bold px-1">+{c.tags.length - 3}</span>
+                                                {c.tags?.length > 2 && (
+                                                    <span className="text-[7px] text-gray-500 font-bold">+{c.tags.length - 2}</span>
                                                 )}
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6 text-right" onClick={(e) => e.stopPropagation()}>
+                                        <td className="px-8 py-4 text-right" onClick={(e) => e.stopPropagation()}>
                                             <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <Link 
                                                     href={route('customers.show', c.id)} 
@@ -242,7 +262,7 @@ export default function CustomerIndex({ customers, filters }) {
                                             <Link 
                                                 key={i} 
                                                 href={link.url || '#'} 
-                                                className={`p-2 rounded-xl border border-gray-200 dark:border-white/10 transition-all ${!link.url ? 'opacity-20 cursor-not-allowed' : 'hover:bg-gray-100 dark:hover:bg-white/5 text-gray-900 dark:text-white'}`}
+                                                className={`p-2 rounded-xl border border-gray-200 dark:border-white/10 transition-all ${!link.url ? 'opacity-20 cursor-not-allowed' : 'hover:bg-gray-200 dark:hover:bg-white/5 text-gray-900 dark:text-white'}`}
                                             >
                                                 <ChevronLeft size={16} />
                                             </Link>
@@ -253,7 +273,7 @@ export default function CustomerIndex({ customers, filters }) {
                                             <Link 
                                                 key={i} 
                                                 href={link.url || '#'} 
-                                                className={`p-2 rounded-xl border border-gray-200 dark:border-white/10 transition-all ${!link.url ? 'opacity-20 cursor-not-allowed' : 'hover:bg-gray-100 dark:hover:bg-white/5 text-gray-900 dark:text-white'}`}
+                                                className={`p-2 rounded-xl border border-gray-200 dark:border-white/10 transition-all ${!link.url ? 'opacity-20 cursor-not-allowed' : 'hover:bg-gray-200 dark:hover:bg-white/5 text-gray-900 dark:text-white'}`}
                                             >
                                                 <ChevronRight size={16} />
                                             </Link>
@@ -264,7 +284,7 @@ export default function CustomerIndex({ customers, filters }) {
                                         <Link 
                                             key={i} 
                                             href={link.url}
-                                            className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${link.active ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20' : 'text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 border border-gray-200 dark:border-white/5'}`}
+                                            className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${link.active ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20' : 'text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-white/5 border border-gray-200 dark:border-white/5'}`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
                                         />
                                     );
