@@ -18,11 +18,12 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'phone' => fake()->phoneNumber(),
-            'tags' => fake()->randomElements(['VIP', 'Corporate', 'Lead', 'Loyal', 'New'], fake()->numberBetween(0, 3)),
-            'external_ids' => ['ghl_opportunity_id' => fake()->optional()->uuid()],
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'phone' => $this->faker->phoneNumber(),
+            'tags' => $this->faker->randomElements(['VIP', 'Corporate', 'Lead', 'Loyal', 'New'], $this->faker->numberBetween(0, 3)),
+            'external_ids' => ['ghl_opportunity_id' => $this->faker->optional()->uuid()],
         ];
+
     }
 }

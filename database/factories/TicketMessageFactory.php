@@ -17,16 +17,17 @@ class TicketMessageFactory extends Factory
      */
     public function definition(): array
     {
-        $isNote = fake()->boolean(20);
-        $isAgent = fake()->boolean(50);
+        $isNote = $this->faker->boolean(20);
+        $isAgent = $this->faker->boolean(50);
         
         return [
             'ticket_id' => \App\Models\Ticket::factory(),
             'sender_id' => null, // Will be set in seeder
             'sender_type' => $isNote ? \App\Models\User::class : ($isAgent ? \App\Models\User::class : \App\Models\Customer::class),
-            'body' => '<p>' . fake()->paragraphs(fake()->numberBetween(1, 3), true) . '</p>',
+            'body' => '<p>' . $this->faker->paragraphs($this->faker->numberBetween(1, 3), true) . '</p>',
             'type' => $isNote ? 'note' : 'message',
-            'created_at' => fake()->dateTimeBetween('-1 month', 'now'),
+            'created_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
         ];
+
     }
 }

@@ -20,12 +20,13 @@ class TicketFactory extends Factory
         return [
             'customer_id' => \App\Models\Customer::factory(),
             'assigned_to' => null, // Will be set in seeder
-            'subject' => fake()->sentence(fake()->numberBetween(3, 8)),
-            'status' => fake()->randomElement(['open', 'open', 'pending', 'waiting', 'resolved', 'closed']),
-            'priority' => fake()->randomElement(['low', 'medium', 'medium', 'high', 'urgent']),
-            'source' => fake()->randomElement(['email', 'ghl', 'sms', 'manual']),
-            'last_message_at' => fake()->dateTimeBetween('-1 month', 'now'),
-            'created_at' => fake()->dateTimeBetween('-2 months', '-1 month'),
+            'subject' => $this->faker->sentence($this->faker->numberBetween(3, 8)),
+            'status' => $this->faker->randomElement(['open', 'open', 'pending', 'waiting', 'resolved', 'closed']),
+            'priority' => $this->faker->randomElement(['low', 'medium', 'medium', 'high', 'urgent']),
+            'source' => $this->faker->randomElement(['email', 'ghl', 'sms', 'manual']),
+            'last_message_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
+            'created_at' => $this->faker->dateTimeBetween('-2 months', '-1 month'),
         ];
+
     }
 }
