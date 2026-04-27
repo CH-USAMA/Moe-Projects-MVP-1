@@ -1,6 +1,24 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm, router } from '@inertiajs/react';
 import { useState } from 'react';
+import { 
+    Users, 
+    UserPlus, 
+    Mail, 
+    Shield, 
+    ShieldCheck, 
+    Trash2, 
+    Edit3, 
+    Key, 
+    User, 
+    Activity, 
+    ArrowRight,
+    X,
+    MoreHorizontal,
+    Search,
+    ShieldAlert
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function AgentIndex({ agents }) {
     const [showCreate, setShowCreate] = useState(false);
@@ -50,100 +68,210 @@ export default function AgentIndex({ agents }) {
     };
 
     return (
-        <AuthenticatedLayout header="Agent Management">
+        <AuthenticatedLayout header="Team Management">
             <Head title="Agents" />
 
-            <div className="flex justify-between items-center mb-6">
-                <div>
-                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">Team Agents</h2>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">Manage your support team and administrative access.</p>
+            <div className="max-w-[1400px] mx-auto pb-20">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                    <div>
+                        <h2 className="text-3xl font-serif font-bold text-gray-900 dark:text-white tracking-tight">Support Agents</h2>
+                        <p className="text-[10px] font-bold text-amber-500 uppercase tracking-[0.3em] mt-1 flex items-center gap-2">
+                            <Users size={12} /> Manage your support team and permissions
+                        </p>
+                    </div>
+                    <button 
+                        onClick={() => { setEditingAgent(null); form.reset(); setShowCreate(!showCreate); }} 
+                        className="px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-black rounded-2xl text-[10px] font-bold uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-xl flex items-center gap-3"
+                    >
+                        {showCreate ? <X size={16} /> : <UserPlus size={16} />}
+                        {showCreate ? 'Cancel' : 'Add Agent'}
+                    </button>
                 </div>
-                <button onClick={() => { setEditingAgent(null); form.reset(); setShowCreate(!showCreate); }} 
-                    className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg text-sm font-bold hover:from-amber-400 hover:to-orange-400 transition-all shadow-lg shadow-amber-500/20">
-                    {showCreate ? 'Close Form' : '+ Add Agent'}
-                </button>
-            </div>
 
-            {showCreate && (
-                <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/50 rounded-2xl p-6 mb-8 shadow-sm dark:shadow-none animate-in fade-in slide-in-from-top-4 duration-300">
-                    <h3 className="text-slate-900 dark:text-white font-bold mb-4">{editingAgent ? 'Edit Agent' : 'Create New Agent'}</h3>
-                    <form onSubmit={handleCreate} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
-                        <div className="space-y-1.5">
-                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
-                            <input value={form.data.name} onChange={e => form.setData('name', e.target.value)} required
-                                className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500/20" />
-                        </div>
-                        <div className="space-y-1.5">
-                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
-                            <input type="email" value={form.data.email} onChange={e => form.setData('email', e.target.value)} required
-                                className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500/20" />
-                        </div>
-                        <div className="space-y-1.5">
-                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Password {editingAgent && '(Leave blank to keep)'}</label>
-                            <input type="password" value={form.data.password} onChange={e => form.setData('password', e.target.value)} required={!editingAgent}
-                                className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500/20" />
-                        </div>
-                        <div className="space-y-1.5">
-                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Role</label>
-                            <select value={form.data.role} onChange={e => form.setData('role', e.target.value)}
-                                className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500/20">
-                                <option value="agent">Agent</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
-                        <div className="sm:col-span-2 lg:col-span-4 flex justify-end gap-3 pt-2">
-                            <button type="button" onClick={() => setShowCreate(false)} className="px-6 py-2.5 text-slate-500 hover:text-slate-700 font-bold text-sm">Cancel</button>
-                            <button type="submit" disabled={form.processing}
-                                className="px-10 py-2.5 bg-slate-900 dark:bg-amber-500 text-white rounded-xl text-sm font-bold hover:opacity-90 disabled:opacity-50 transition-all shadow-lg shadow-amber-500/10">
-                                {form.processing ? 'Saving...' : (editingAgent ? 'Update Agent' : 'Create Agent')}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            )}
-
-            <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/50 rounded-2xl overflow-hidden shadow-sm dark:shadow-none">
-                <table className="w-full text-left border-collapse">
-                    <thead>
-                        <tr className="bg-slate-50/50 dark:bg-transparent border-b border-slate-100 dark:border-slate-800/30">
-                            <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Agent</th>
-                            <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Email</th>
-                            <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Role</th>
-                            <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800/30">
-                        {agents.map(agent => (
-                            <tr key={agent.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors group">
-                                <td className="px-6 py-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center text-xs font-bold">
-                                            {agent.name.substring(0, 2).toUpperCase()}
+                <AnimatePresence>
+                    {showCreate && (
+                        <motion.div 
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden mb-12"
+                        >
+                            <div className="bg-white dark:bg-white/[0.03] backdrop-blur-md border border-gray-200 dark:border-white/10 rounded-[2.5rem] p-10 shadow-2xl relative">
+                                <div className="absolute top-0 right-0 p-10 opacity-[0.02] text-gray-900 dark:text-white pointer-events-none">
+                                    <ShieldCheck size={180} />
+                                </div>
+                                <h3 className="text-xl font-serif font-bold text-gray-900 dark:text-white mb-8 relative z-10">
+                                    {editingAgent ? 'Edit Agent Details' : 'Add New Agent'}
+                                </h3>
+                                <form onSubmit={handleCreate} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 items-end relative z-10">
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-1">Full Name</label>
+                                        <div className="relative">
+                                            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={14} />
+                                            <input 
+                                                value={form.data.name} 
+                                                onChange={e => form.setData('name', e.target.value)} 
+                                                required
+                                                placeholder="Name"
+                                                className="w-full bg-gray-100 dark:bg-black/40 border border-gray-200 dark:border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-amber-500/20 transition-all shadow-inner" 
+                                            />
                                         </div>
-                                        <span className="text-sm font-bold text-slate-900 dark:text-white">{agent.name}</span>
                                     </div>
-                                </td>
-                                <td className="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">{agent.email}</td>
-                                <td className="px-6 py-4">
-                                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider border ${agent.role === 'admin' ? 'bg-purple-50 dark:bg-purple-500/10 text-purple-600 border-purple-200 dark:border-purple-500/20' : 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 border-blue-200 dark:border-blue-500/20'}`}>
-                                        {agent.role}
-                                    </span>
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <div className="flex justify-end gap-2">
-                                        <button onClick={() => editAgent(agent)} className="p-2 text-slate-400 hover:text-amber-500 transition-colors">
-                                            ✏️
-                                        </button>
-                                        <button onClick={() => deleteAgent(agent.id)} className="p-2 text-slate-400 hover:text-red-500 transition-colors">
-                                            🗑️
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-1">Email Address</label>
+                                        <div className="relative">
+                                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={14} />
+                                            <input 
+                                                type="email" 
+                                                value={form.data.email} 
+                                                onChange={e => form.setData('email', e.target.value)} 
+                                                required
+                                                placeholder="email@example.com"
+                                                className="w-full bg-gray-100 dark:bg-black/40 border border-gray-200 dark:border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-amber-500/20 transition-all shadow-inner" 
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-1">Password {editingAgent && '(Leave blank to keep current)'}</label>
+                                        <div className="relative">
+                                            <Key className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={14} />
+                                            <input 
+                                                type="password" 
+                                                value={form.data.password} 
+                                                onChange={e => form.setData('password', e.target.value)} 
+                                                required={!editingAgent}
+                                                placeholder="••••••••"
+                                                className="w-full bg-gray-100 dark:bg-black/40 border border-gray-200 dark:border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-amber-500/20 transition-all shadow-inner" 
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-1">Role</label>
+                                        <div className="relative">
+                                            <Shield className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={14} />
+                                            <select 
+                                                value={form.data.role} 
+                                                onChange={e => form.setData('role', e.target.value)}
+                                                className="w-full bg-gray-100 dark:bg-black/40 border border-gray-200 dark:border-white/10 rounded-xl pl-12 pr-10 py-3.5 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-amber-500/20 cursor-pointer appearance-none shadow-inner"
+                                            >
+                                                <option value="agent" className="bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-white">Agent</option>
+                                                <option value="admin" className="bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-white">Administrator</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="sm:col-span-2 lg:col-span-4 flex justify-end gap-6 pt-4">
+                                        <button type="button" onClick={() => setShowCreate(false)} className="px-8 py-3 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">Cancel</button>
+                                        <button 
+                                            type="submit" 
+                                            disabled={form.processing}
+                                            className="px-12 py-4 bg-gradient-to-r from-amber-600 to-amber-400 text-black rounded-xl text-[10px] font-bold uppercase tracking-[0.3em] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-amber-600/20 flex items-center gap-3"
+                                        >
+                                            {form.processing ? 'Saving...' : (
+                                                <>
+                                                    Save Agent <ArrowRight size={14} />
+                                                </>
+                                            )}
                                         </button>
                                     </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                                </form>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                <div className="bg-white dark:bg-white/[0.03] backdrop-blur-md border border-gray-200 dark:border-white/10 rounded-[3rem] overflow-hidden shadow-sm relative">
+                    <div className="px-10 py-8 border-b border-white/5 bg-white/[0.01] flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                            <Activity size={18} className="text-amber-500" />
+                            <div>
+                                <h3 className="text-[11px] font-bold text-gray-900 dark:text-white uppercase tracking-[0.4em]">Agents List</h3>
+                                <p className="text-[9px] font-bold text-gray-600 uppercase tracking-widest mt-1">Manage your team members and roles</p>
+                            </div>
+                        </div>
+                        <div className="relative group">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 group-focus-within:text-amber-500 transition-colors" size={14} />
+                            <input 
+                                type="text" 
+                                placeholder="Search agents..." 
+                                className="bg-gray-100 dark:bg-black/20 border border-gray-200 dark:border-white/5 rounded-full pl-10 pr-6 py-2 text-[10px] font-bold text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-700 focus:ring-1 focus:ring-amber-500/20 w-48 transition-all"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="border-b border-white/5">
+                                    <th className="px-10 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-[0.3em]">Name</th>
+                                    <th className="px-10 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-[0.3em]">Email</th>
+                                    <th className="px-10 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-[0.3em]">Role</th>
+                                    <th className="px-10 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-[0.3em] text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-white/5">
+                                {agents.map((agent, index) => (
+                                    <motion.tr 
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.05 }}
+                                        key={agent.id} 
+                                        className="hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-all group"
+                                    >
+                                        <td className="px-10 py-6">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-gray-100 to-gray-50 dark:from-white/10 dark:to-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white flex items-center justify-center text-xs font-bold font-mono shadow-xl group-hover:scale-110 group-hover:border-amber-500/30 transition-all duration-500">
+                                                    {agent.name.substring(0, 2).toUpperCase()}
+                                                </div>
+                                                <div>
+                                                    <span className="text-sm font-medium text-gray-900 dark:text-white group-hover:text-amber-500 transition-colors">{agent.name}</span>
+                                                    <p className="text-[9px] text-gray-600 font-bold uppercase tracking-widest mt-0.5">ID: {agent.id.toString().padStart(4, '0')}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-10 py-6">
+                                            <span className="text-xs text-gray-500 group-hover:text-gray-300 transition-colors font-mono tracking-tight">{agent.email}</span>
+                                        </td>
+                                        <td className="px-10 py-6">
+                                            <div className="flex items-center gap-3">
+                                                <span className={`text-[9px] px-3 py-1 rounded-xl font-bold uppercase tracking-widest border flex items-center gap-2 ${
+                                                    agent.role === 'admin' 
+                                                        ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' 
+                                                        : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                                                }`}>
+                                                    {agent.role === 'admin' ? <ShieldAlert size={10} /> : <Shield size={10} />}
+                                                    {agent.role === 'admin' ? 'Administrator' : 'Agent'}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td className="px-10 py-6 text-right">
+                                            <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-300">
+                                                <button 
+                                                    onClick={() => editAgent(agent)} 
+                                                    className="p-3 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-500 hover:text-amber-500 hover:bg-gray-200 dark:hover:bg-white/10 border border-gray-200 dark:border-white/5 transition-all"
+                                                    title="Edit Agent"
+                                                >
+                                                    <Edit3 size={16} />
+                                                </button>
+                                                <button 
+                                                    onClick={() => deleteAgent(agent.id)} 
+                                                    className="p-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white border border-red-500/10 transition-all shadow-xl shadow-red-500/5"
+                                                    title="Delete Agent"
+                                                >
+                                                    <Trash2 size={16} />
+                                                </button>
+                                            </div>
+                                            <button className="p-2 text-gray-700 group-hover:opacity-0 transition-opacity">
+                                                <MoreHorizontal size={18} />
+                                            </button>
+                                        </td>
+                                    </motion.tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </AuthenticatedLayout>
     );
 }
+

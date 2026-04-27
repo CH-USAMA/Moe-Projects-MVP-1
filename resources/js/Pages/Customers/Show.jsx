@@ -1,13 +1,39 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm, router } from '@inertiajs/react';
 import { useState } from 'react';
+import { 
+    User, 
+    Mail, 
+    Phone, 
+    Tag, 
+    Ticket, 
+    Calendar, 
+    Link2, 
+    Trash2, 
+    Bell, 
+    ShieldCheck, 
+    History, 
+    ExternalLink, 
+    Save, 
+    Plus, 
+    X,
+    Activity,
+    Smartphone,
+    Globe,
+    Star,
+    Coffee,
+    Inbox,
+    ArrowRight,
+    RefreshCw
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const STATUS_COLORS = {
-    open: 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-500/20',
-    pending: 'bg-yellow-50 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-200 dark:border-yellow-500/20',
-    waiting: 'bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-500/20',
-    resolved: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20',
-    closed: 'bg-slate-100 dark:bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-500/20',
+    open: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    pending: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+    waiting: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+    resolved: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+    closed: 'bg-white/5 text-gray-500 border-white/5',
 };
 
 export default function CustomerShow({ customer }) {
@@ -57,179 +83,322 @@ export default function CustomerShow({ customer }) {
         <AuthenticatedLayout header="Customer Profile">
             <Head title={`Customer — ${customer.name || customer.email}`} />
 
-            <div className="grid lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 space-y-6">
-                    {/* Hero Profile Card */}
-                    <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/50 rounded-2xl overflow-hidden shadow-sm dark:shadow-none">
-                        <div className="h-24 bg-gradient-to-r from-amber-500 to-orange-500" />
-                        <div className="px-6 pb-6 relative">
-                            <div className="flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 mb-4">
-                                <div className="w-20 h-20 rounded-2xl bg-white dark:bg-slate-900 border-4 border-white dark:border-slate-900 flex items-center justify-center text-2xl font-bold text-amber-500 shadow-xl">
-                                    {initials}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white truncate">
-                                        {customer.name || 'Unnamed Customer'}
-                                    </h2>
-                                    <p className="text-slate-500 dark:text-slate-400 font-medium">{customer.email}</p>
-                                </div>
-                                <div className="flex gap-2">
-                                    <button onClick={handleGHLSync} disabled={syncing}
-                                        className="px-4 py-2 bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 rounded-lg text-sm font-bold hover:bg-blue-500/20 transition-all disabled:opacity-50">
-                                        {syncing ? 'Syncing...' : '🔗 Sync GHL'}
-                                    </button>
-                                    <button onClick={() => { if(confirm('Delete customer and all tickets?')) router.delete(route('customers.destroy', customer.id)) }}
-                                        className="px-4 py-2 bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20 rounded-lg text-sm font-bold hover:bg-red-500/20 transition-all">
-                                        🗑️ Delete
-                                    </button>
-                                </div>
+            <div className="max-w-7xl mx-auto pb-20">
+                <div className="grid lg:grid-cols-3 gap-8">
+                    {/* Main Content Area */}
+                    <div className="lg:col-span-2 space-y-8">
+                        {/* Profile Header Card */}
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl relative"
+                        >
+                            <div className="h-32 bg-gradient-to-r from-amber-600/20 via-blue-600/10 to-indigo-600/20 relative">
+                                <div className="absolute inset-0 bg-black/20" />
+                                <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#0a0a0a]/80 to-transparent" />
                             </div>
+                            
+                            <div className="px-10 pb-10 relative">
+                                <div className="flex flex-col md:flex-row md:items-end gap-6 -mt-12 mb-10">
+                                    <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-amber-500 to-orange-600 p-1 shadow-2xl relative z-10">
+                                        <div className="w-full h-full rounded-[1.4rem] bg-black/20 backdrop-blur-xl flex items-center justify-center text-3xl font-serif font-bold text-white tracking-tighter">
+                                            {initials}
+                                        </div>
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <h2 className="text-3xl font-serif font-bold text-white tracking-tight truncate">
+                                            {customer.name || 'Anonymous Customer'}
+                                        </h2>
+                                        <div className="flex items-center gap-3 mt-1.5">
+                                            <Mail size={14} className="text-blue-400/50" />
+                                            <p className="text-gray-400 font-medium text-sm">{customer.email}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-3">
+                                        <button 
+                                            onClick={handleGHLSync} 
+                                            disabled={syncing}
+                                            className="px-6 py-3 bg-white/5 text-blue-400 border border-white/10 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2 disabled:opacity-50"
+                                        >
+                                            {syncing ? <RefreshCw size={14} className="animate-spin" /> : <Link2 size={14} />}
+                                            Sync CRM
+                                        </button>
+                                        <button 
+                                            onClick={() => { if(confirm('Delete customer and all tickets?')) router.delete(route('customers.destroy', customer.id)) }}
+                                            className="p-3.5 bg-red-500/10 text-red-500 border border-red-500/20 rounded-2xl hover:bg-red-500/20 transition-all"
+                                        >
+                                            <Trash2 size={20} />
+                                        </button>
+                                    </div>
+                                </div>
 
-                            <form onSubmit={handleSave} className="grid sm:grid-cols-2 gap-4 mt-8">
-                                <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Full Name</label>
-                                    <input value={form.data.name} onChange={e => form.setData('name', e.target.value)}
-                                        placeholder="Enter name..." className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/50 transition-all" />
-                                </div>
-                                <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Phone Number</label>
-                                    <input value={form.data.phone} onChange={e => form.setData('phone', e.target.value)}
-                                        placeholder="+1..." className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/50 transition-all" />
-                                </div>
-                                <div className="sm:col-span-2 space-y-4 py-4 border-y border-slate-100 dark:border-slate-800/30">
-                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                <form onSubmit={handleSave} className="space-y-8">
+                                    <div className="grid md:grid-cols-2 gap-8 pt-6 border-t border-white/5">
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-1">Full Name</label>
+                                            <div className="relative">
+                                                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={16} />
+                                                <input 
+                                                    value={form.data.name} 
+                                                    onChange={e => form.setData('name', e.target.value)}
+                                                    placeholder="Enter name..." 
+                                                    className="w-full bg-white/[0.02] border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-sm text-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/50 transition-all" 
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-1">Phone Number</label>
+                                            <div className="relative">
+                                                <Smartphone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={16} />
+                                                <input 
+                                                    value={form.data.phone} 
+                                                    onChange={e => form.setData('phone', e.target.value)}
+                                                    placeholder="+1..." 
+                                                    className="w-full bg-white/[0.02] border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-sm text-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/50 transition-all" 
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="py-8 border-y border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-8">
                                         <div>
-                                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Customer Priority</label>
-                                            <div className="flex gap-2 mt-2">
-                                                {['important', 'normal', 'casual'].map(cat => (
-                                                    <button key={cat} type="button" onClick={() => form.setData('category', cat)}
-                                                        className={`px-4 py-2 rounded-xl text-xs font-bold capitalize border transition-all ${form.data.category === cat ? 'bg-amber-500 border-amber-500 text-white shadow-lg shadow-amber-500/20' : 'bg-white dark:bg-slate-900/50 border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400'}`}>
-                                                        {cat === 'important' ? '⭐ ' : cat === 'casual' ? '☕ ' : '📬 '}{cat}
+                                            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-1 mb-4 block">Priority Level</label>
+                                            <div className="flex gap-3">
+                                                {[
+                                                    { id: 'important', icon: <Star size={14} />, label: 'VIP' },
+                                                    { id: 'normal', icon: <Inbox size={14} />, label: 'Standard' },
+                                                    { id: 'casual', icon: <Coffee size={14} />, label: 'Casual' }
+                                                ].map(cat => (
+                                                    <button 
+                                                        key={cat.id} 
+                                                        type="button" 
+                                                        onClick={() => form.setData('category', cat.id)}
+                                                        className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest border transition-all ${form.data.category === cat.id ? 'bg-amber-500 border-amber-500 text-black shadow-lg shadow-amber-500/20' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}`}
+                                                    >
+                                                        {cat.icon} {cat.label}
                                                     </button>
                                                 ))}
                                             </div>
                                         </div>
 
-                                        <div className="flex gap-6">
+                                        <div className="flex gap-8">
                                             <label className="flex items-center gap-3 cursor-pointer group">
                                                 <div className="relative inline-flex items-center">
                                                     <input type="checkbox" checked={form.data.notifications_enabled} onChange={e => form.setData('notifications_enabled', e.target.checked)} className="sr-only peer" />
-                                                    <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none dark:bg-slate-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500 rounded-full shadow-inner"></div>
+                                                    <div className="w-11 h-6 bg-white/5 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                                                 </div>
-                                                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">Notifications</span>
+                                                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest group-hover:text-white transition-colors">Alerts</span>
                                             </label>
                                             <label className="flex items-center gap-3 cursor-pointer group">
                                                 <div className="relative inline-flex items-center">
                                                     <input type="checkbox" checked={form.data.logging_enabled} onChange={e => form.setData('logging_enabled', e.target.checked)} className="sr-only peer" />
-                                                    <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none dark:bg-slate-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-500 rounded-full shadow-inner"></div>
+                                                    <div className="w-11 h-6 bg-white/5 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
                                                 </div>
-                                                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">Logging</span>
+                                                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest group-hover:text-white transition-colors">Logging</span>
                                             </label>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div className="sm:col-span-2 space-y-1.5">
-                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Tags</label>
-                                    <div className="flex gap-2 mb-2 flex-wrap">
-                                        {form.data.tags.map(tag => (
-                                            <span key={tag} className="inline-flex items-center gap-1.5 text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2.5 py-1.5 rounded-lg font-medium border border-slate-200 dark:border-slate-700">
-                                                {tag}
-                                                <button type="button" onClick={() => removeTag(tag)} className="text-slate-400 hover:text-red-500 transition-colors font-bold text-base">×</button>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-1 flex items-center gap-2">
+                                            <Tag size={12} className="text-blue-400" /> Organizational Tags
+                                        </label>
+                                        <div className="flex gap-2 flex-wrap min-h-[40px]">
+                                            <AnimatePresence>
+                                                {form.data.tags.map(tag => (
+                                                    <motion.span 
+                                                        initial={{ opacity: 0, scale: 0.8 }}
+                                                        animate={{ opacity: 1, scale: 1 }}
+                                                        exit={{ opacity: 0, scale: 0.8 }}
+                                                        key={tag} 
+                                                        className="inline-flex items-center gap-2 text-[10px] bg-white/5 text-gray-300 px-4 py-2 rounded-xl font-bold uppercase tracking-wider border border-white/5 shadow-sm group/tag"
+                                                    >
+                                                        {tag}
+                                                        <button 
+                                                            type="button" 
+                                                            onClick={() => removeTag(tag)} 
+                                                            className="text-gray-600 hover:text-red-500 transition-colors"
+                                                        >
+                                                            <X size={14} />
+                                                        </button>
+                                                    </motion.span>
+                                                ))}
+                                            </AnimatePresence>
+                                        </div>
+                                        <div className="flex gap-3 max-w-md">
+                                            <input 
+                                                value={tagInput} 
+                                                onChange={e => setTagInput(e.target.value)}
+                                                onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                                                placeholder="Add identifier tag..." 
+                                                className="flex-1 bg-white/[0.02] border border-white/10 rounded-2xl px-5 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all" 
+                                            />
+                                            <button 
+                                                type="button" 
+                                                onClick={addTag} 
+                                                className="px-6 py-3 bg-white/5 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all border border-white/10"
+                                            >
+                                                Add
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex justify-end pt-4">
+                                        <button 
+                                            type="submit" 
+                                            disabled={form.processing}
+                                            className="px-10 py-5 bg-gradient-to-r from-amber-600 to-amber-400 text-black rounded-2xl text-[10px] font-bold uppercase tracking-[0.3em] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-amber-500/20 flex items-center gap-2 disabled:opacity-50"
+                                        >
+                                            {form.processing ? 'Saving...' : (
+                                                <>
+                                                    <Save size={16} /> Update Profile
+                                                </>
+                                            )}
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </motion.div>
+
+                        {/* Ticket History Section */}
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 }}
+                            className="bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl"
+                        >
+                            <div className="px-10 py-6 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400">
+                                        <History size={18} />
+                                    </div>
+                                    <h3 className="text-white font-serif font-bold text-lg tracking-tight">Interaction History</h3>
+                                </div>
+                                <span className="text-[10px] font-bold text-gray-500 bg-white/5 px-4 py-1.5 rounded-full uppercase tracking-[0.2em] border border-white/5">
+                                    {customer.tickets?.length || 0} Tickets
+                                </span>
+                            </div>
+                            
+                            <div className="divide-y divide-white/5">
+                                {customer.tickets?.length === 0 && (
+                                    <div className="px-10 py-20 text-center">
+                                        <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto text-gray-700 mb-4">
+                                            <Inbox size={32} />
+                                        </div>
+                                        <p className="text-[10px] font-bold text-gray-600 uppercase tracking-[0.3em]">No interaction history detected</p>
+                                    </div>
+                                )}
+                                {customer.tickets?.map((t, idx) => (
+                                    <Link 
+                                        key={t.id} 
+                                        href={route('tickets.show', t.id)} 
+                                        className="flex flex-col md:flex-row md:items-center gap-6 px-10 py-6 hover:bg-white/[0.02] transition-colors group"
+                                    >
+                                        <div className="w-14 h-14 rounded-2xl bg-white/5 flex flex-col items-center justify-center border border-white/5 group-hover:bg-amber-500/10 group-hover:border-amber-500/20 transition-all">
+                                            <span className="text-[9px] font-bold text-gray-600 group-hover:text-amber-500 transition-colors uppercase tracking-tighter">REF</span>
+                                            <span className="text-sm font-bold text-white group-hover:text-amber-500 transition-colors">#{t.id}</span>
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-base font-bold text-white group-hover:text-amber-500 transition-colors truncate">
+                                                {t.subject}
+                                            </p>
+                                            <div className="flex items-center gap-4 mt-1.5">
+                                                <div className="flex items-center gap-1.5">
+                                                    <Calendar size={12} className="text-gray-600" />
+                                                    <span className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">{new Date(t.created_at).toLocaleDateString()}</span>
+                                                </div>
+                                                <div className="flex items-center gap-1.5">
+                                                    <Globe size={12} className="text-gray-600" />
+                                                    <span className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">{t.source}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="shrink-0 flex items-center gap-6">
+                                            <span className={`text-[9px] px-4 py-2 rounded-xl font-bold uppercase tracking-[0.2em] border ${STATUS_COLORS[t.status] || STATUS_COLORS.open}`}>
+                                                {t.status}
                                             </span>
-                                        ))}
-                                    </div>
-                                    <div className="flex gap-2">
-                                        <input value={tagInput} onChange={e => setTagInput(e.target.value)}
-                                            onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                                            placeholder="Add a tag..." className="flex-1 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl px-4 py-2 text-sm text-slate-900 dark:text-white focus:ring-amber-500/20" />
-                                        <button type="button" onClick={addTag} className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700">Add</button>
-                                    </div>
-                                </div>
-                                <div className="sm:col-span-2 flex justify-end pt-4">
-                                    <button type="submit" disabled={form.processing}
-                                        className="px-10 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl text-sm font-bold hover:from-amber-400 hover:to-orange-400 disabled:opacity-50 shadow-xl shadow-amber-500/20 transition-all">
-                                        {form.processing ? 'Saving...' : 'Update Profile'}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                                            <ArrowRight size={18} className="text-gray-700 group-hover:text-white transition-colors" />
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </motion.div>
                     </div>
 
-                    {/* Ticket History */}
-                    <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/50 rounded-2xl overflow-hidden shadow-sm dark:shadow-none">
-                        <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800/30 flex items-center justify-between">
-                            <h3 className="text-slate-900 dark:text-white font-bold">Ticket History</h3>
-                            <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">{customer.tickets?.length || 0} Total</span>
-                        </div>
-                        <div className="divide-y divide-slate-100 dark:divide-slate-800/30">
-                            {customer.tickets?.length === 0 && (
-                                <div className="px-6 py-16 text-center">
-                                    <div className="text-4xl mb-4">🎫</div>
-                                    <p className="text-slate-500 dark:text-slate-400 text-sm">No ticket history for this customer.</p>
+                    {/* Sidebar Area */}
+                    <div className="space-y-8">
+                        {/* Insights Panel */}
+                        <motion.div 
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[2.5rem] p-8 shadow-2xl space-y-8 sticky top-6"
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 rounded-xl bg-amber-500/10 text-amber-500">
+                                    <Activity size={18} />
                                 </div>
-                            )}
-                            {customer.tickets?.map(t => (
-                                <Link key={t.id} href={route('tickets.show', t.id)} className="flex items-center gap-4 px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
-                                    <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-xs font-mono text-slate-400 group-hover:bg-amber-500/10 group-hover:text-amber-500 transition-colors">
-                                        #{t.id}
+                                <h3 className="text-xs font-bold text-white uppercase tracking-[0.2em]">Customer Insights</h3>
+                            </div>
+                            
+                            <div className="space-y-4">
+                                <div className="p-6 bg-white/[0.02] border border-white/5 rounded-3xl space-y-4 group hover:bg-white/[0.04] transition-all">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+                                            <Calendar size={20} />
+                                        </div>
+                                        <div>
+                                            <p className="text-[9px] font-bold text-gray-600 uppercase tracking-widest">Client Since</p>
+                                            <p className="text-sm font-bold text-white">{new Date(customer.created_at).toLocaleDateString()}</p>
+                                        </div>
                                     </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-bold text-slate-900 dark:text-white truncate group-hover:text-amber-500 transition-colors">{t.subject}</p>
-                                        <p className="text-xs text-slate-500 mt-0.5">
-                                            {new Date(t.created_at).toLocaleDateString()} • {t.source}
-                                        </p>
+                                </div>
+                                
+                                <div className="p-6 bg-white/[0.02] border border-white/5 rounded-3xl space-y-4 group hover:bg-white/[0.04] transition-all">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-10 h-10 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center">
+                                            <Ticket size={20} />
+                                        </div>
+                                        <div>
+                                            <p className="text-[9px] font-bold text-gray-600 uppercase tracking-widest">Total Lifecycle</p>
+                                            <p className="text-sm font-bold text-white">{customer.tickets?.length || 0} Tickets</p>
+                                        </div>
                                     </div>
-                                    <div className="shrink-0 flex items-center gap-3">
-                                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider border ${STATUS_COLORS[t.status]}`}>
-                                            {t.status}
-                                        </span>
-                                        <span className="text-slate-300 dark:text-slate-700">→</span>
-                                    </div>
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="space-y-6 h-fit">
-                    {/* Insights Card */}
-                    <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/50 rounded-2xl p-6 shadow-sm dark:shadow-none space-y-6">
-                        <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Customer Insights</h3>
-                        
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800/30">
-                                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center">📅</div>
-                                <div>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase">Customer Since</p>
-                                    <p className="text-sm font-bold text-slate-900 dark:text-white">{new Date(customer.created_at).toLocaleDateString()}</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800/30">
-                                <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center">🎟️</div>
-                                <div>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase">Engagement</p>
-                                    <p className="text-sm font-bold text-slate-900 dark:text-white">{customer.tickets?.length || 0} Total Tickets</p>
+
+                            <hr className="border-white/5" />
+
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-2">
+                                    <ShieldCheck size={14} className="text-emerald-500/50" />
+                                    <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">CRM Synchronization</h4>
+                                </div>
+                                
+                                <div className="p-5 bg-[#0a0a0a] rounded-2xl border border-white/5 space-y-3">
+                                    <p className="text-[9px] font-bold text-gray-600 uppercase tracking-widest">GHL Record Identity</p>
+                                    <div className="flex items-center justify-between gap-4">
+                                        <code className="text-[11px] text-blue-400 font-mono break-all leading-tight">
+                                            {customer.external_ids?.ghl_opportunity_id || 'NOT_SYNCED'}
+                                        </code>
+                                        {customer.external_ids?.ghl_opportunity_id && (
+                                            <CheckCircle2 size={14} className="text-emerald-500 shrink-0" />
+                                        )}
+                                    </div>
+                                </div>
+                                
+                                <div className="text-[10px] text-gray-600 leading-relaxed italic px-2">
+                                    This profile is synced with the external CRM pipeline. Updates to priority or tags will be transmitted on the next sync cycle.
                                 </div>
                             </div>
-                        </div>
-
-                        <hr className="border-slate-100 dark:border-slate-800/30" />
-
-                        <div className="space-y-4">
-                            <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">External References</h4>
-                            <div className="space-y-2">
-                                <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800/30">
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">GHL Opportunity ID</p>
-                                    <code className="text-xs text-blue-500 break-all font-mono">
-                                        {customer.external_ids?.ghl_opportunity_id || 'Not Synced'}
-                                    </code>
-                                </div>
-                            </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             </div>
         </AuthenticatedLayout>
     );
+}
+
+// Helper to make it compatible with old icons in the code if needed
+function CheckCircle2({ size, className }) {
+    return <ShieldCheck size={size} className={className} />;
 }
