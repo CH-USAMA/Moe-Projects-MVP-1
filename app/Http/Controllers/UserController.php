@@ -35,35 +35,35 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Agent created successfully.');
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $agent)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $agent->id,
             'password' => 'nullable|string|min:8',
             'role' => 'required|in:admin,agent',
         ]);
 
-        $user->update([
+        $agent->update([
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
         ]);
 
         if ($request->filled('password')) {
-            $user->update(['password' => Hash::make($request->password)]);
+            $agent->update(['password' => Hash::make($request->password)]);
         }
 
         return redirect()->back()->with('success', 'Agent updated successfully.');
     }
 
-    public function destroy(User $user)
+    public function destroy(User $agent)
     {
-        if ($user->id === auth()->id()) {
+        if ($agent->id === auth()->id()) {
             return redirect()->back()->with('error', 'You cannot delete yourself.');
         }
 
-        $user->delete();
+        $agent->delete();
         return redirect()->back()->with('success', 'Agent deleted successfully.');
     }
 }
