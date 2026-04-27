@@ -106,7 +106,7 @@ export default function CustomerShow({ customer }) {
                                         </div>
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h2 className="text-3xl font-serif font-bold text-white tracking-tight truncate">
+                                        <h2 className="text-3xl font-serif font-bold text-gray-900 dark:text-white tracking-tight truncate">
                                             {customer.name || 'Anonymous Customer'}
                                         </h2>
                                         <div className="flex items-center gap-3 mt-1.5">
@@ -118,7 +118,7 @@ export default function CustomerShow({ customer }) {
                                         <button 
                                             onClick={handleGHLSync} 
                                             disabled={syncing}
-                                            className="px-6 py-3 bg-white/5 text-blue-400 border border-white/10 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2 disabled:opacity-50"
+                                            className="px-6 py-3 bg-gray-50 dark:bg-white/5 text-blue-500 dark:text-blue-400 border border-gray-200 dark:border-white/10 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-gray-100 dark:hover:bg-white/10 transition-all flex items-center gap-2 disabled:opacity-50"
                                         >
                                             {syncing ? <RefreshCw size={14} className="animate-spin" /> : <Link2 size={14} />}
                                             Sync CRM
@@ -136,25 +136,25 @@ export default function CustomerShow({ customer }) {
                                     <div className="grid md:grid-cols-2 gap-8 pt-6 border-t border-white/5">
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-1">Full Name</label>
-                                            <div className="relative">
-                                                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={16} />
+                                            <div className="relative shadow-sm dark:shadow-none rounded-2xl">
+                                                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600" size={16} />
                                                 <input 
                                                     value={form.data.name} 
                                                     onChange={e => form.setData('name', e.target.value)}
                                                     placeholder="Enter name..." 
-                                                    className="w-full bg-white/[0.02] border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-sm text-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/50 transition-all" 
+                                                    className="w-full bg-white dark:bg-white/[0.02] border border-gray-200 dark:border-white/10 rounded-2xl pl-12 pr-4 py-4 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/50 transition-all" 
                                                 />
                                             </div>
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-1">Phone Number</label>
-                                            <div className="relative">
-                                                <Smartphone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={16} />
+                                            <div className="relative shadow-sm dark:shadow-none rounded-2xl">
+                                                <Smartphone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600" size={16} />
                                                 <input 
                                                     value={form.data.phone} 
                                                     onChange={e => form.setData('phone', e.target.value)}
                                                     placeholder="+1..." 
-                                                    className="w-full bg-white/[0.02] border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-sm text-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/50 transition-all" 
+                                                    className="w-full bg-white dark:bg-white/[0.02] border border-gray-200 dark:border-white/10 rounded-2xl pl-12 pr-4 py-4 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500/50 transition-all" 
                                                 />
                                             </div>
                                         </div>
