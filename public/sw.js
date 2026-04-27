@@ -1,27 +1,20 @@
 // Moe Limo Hub Service Worker
 const CACHE_NAME = 'moelimo-v1';
-const ASSETS = [
-    '/',
-    '/manifest.json',
-    '/pwa-icon-192.png',
-    '/pwa-icon-512.png'
-];
-
+// Cache installation removed to prevent ERR_FAILED on dynamic Inertia redirects
 self.addEventListener('install', (event) => {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(ASSETS);
-        })
-    );
+    self.skipWaiting();
 });
 
-self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        caches.match(event.request).then((response) => {
-            return response || fetch(event.request);
-        })
-    );
+self.addEventListener('activate', (event) => {
+    event.waitUntil(clients.claim());
 });
+
+// We only want the Service Worker for Push Notifications right now.
+// Intercepting fetch for dynamic Inertia routes often causes opaque redirect errors.
+self.addEventListener('fetch', (event) => {
+    // Pass through all requests normally
+});
+
 
 self.addEventListener('push', (event) => {
     if (!(self.Notification && self.Notification.permission === 'granted')) {
