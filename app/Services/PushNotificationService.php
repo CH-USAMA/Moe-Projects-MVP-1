@@ -15,9 +15,9 @@ class PushNotificationService
     {
         $auth = [
             'VAPID' => [
-                'subject' => env('VAPID_SUBJECT', 'mailto:admin@moelimo.com'),
-                'publicKey' => env('VAPID_PUBLIC_KEY'),
-                'privateKey' => env('VAPID_PRIVATE_KEY'),
+                'subject' => config('services.vapid.subject', 'mailto:admin@moelimo.com'),
+                'publicKey' => config('services.vapid.public_key'),
+                'privateKey' => config('services.vapid.private_key'),
             ],
         ];
 
