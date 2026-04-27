@@ -15,7 +15,9 @@ import {
     ChevronLeft,
     ChevronRight,
     Users,
-    User
+    User,
+    Star,
+    Coffee
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
