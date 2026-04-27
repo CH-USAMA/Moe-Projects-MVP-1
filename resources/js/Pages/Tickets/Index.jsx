@@ -131,6 +131,10 @@ export default function TicketIndex({ tickets, agents, customers, filters, slaSe
                             </p>
                         </div>
                         <div className="flex items-center gap-4">
+                            <button 
+                                onClick={() => setCreating(true)} 
+                                className="px-6 py-3.5 bg-gray-900 dark:bg-white text-white dark:text-black rounded-2xl text-[10px] font-bold uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-gray-900/10 dark:shadow-white/10 flex items-center gap-2 group"
+                            >
                                 <Plus size={16} className="group-hover:rotate-90 transition-transform duration-300" /> 
                                 Add Ticket
                             </button>
