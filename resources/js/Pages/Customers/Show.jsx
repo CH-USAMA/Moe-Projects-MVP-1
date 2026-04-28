@@ -29,11 +29,11 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 
 const STATUS_COLORS = {
-    open: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-    pending: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-    waiting: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
-    resolved: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-    closed: 'bg-white/5 text-gray-500 border-white/5',
+    open: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20',
+    pending: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
+    waiting: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20',
+    resolved: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
+    closed: 'bg-gray-100 dark:bg-white/5 text-gray-500 border-gray-200 dark:border-white/5',
 };
 
 export default function CustomerShow({ customer }) {
@@ -91,11 +91,11 @@ export default function CustomerShow({ customer }) {
                         <motion.div 
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl relative"
+                            className="bg-white dark:bg-white/[0.03] backdrop-blur-md border border-gray-200 dark:border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl relative"
                         >
                             <div className="h-32 bg-gradient-to-r from-amber-600/20 via-blue-600/10 to-indigo-600/20 relative">
                                 <div className="absolute inset-0 bg-black/20" />
-                                <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#0a0a0a]/80 to-transparent" />
+                                <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white/80 dark:from-[#0a0a0a]/80 to-transparent" />
                             </div>
                             
                             <div className="px-10 pb-10 relative">
@@ -111,7 +111,7 @@ export default function CustomerShow({ customer }) {
                                         </h2>
                                         <div className="flex items-center gap-3 mt-1.5">
                                             <Mail size={14} className="text-blue-400/50" />
-                                            <p className="text-gray-400 font-medium text-sm">{customer.email}</p>
+                                            <p className="text-gray-500 dark:text-gray-400 font-medium text-sm">{customer.email}</p>
                                         </div>
                                     </div>
                                     <div className="flex gap-3">
@@ -133,7 +133,7 @@ export default function CustomerShow({ customer }) {
                                 </div>
 
                                 <form onSubmit={handleSave} className="space-y-8">
-                                    <div className="grid md:grid-cols-2 gap-8 pt-6 border-t border-white/5">
+                                    <div className="grid md:grid-cols-2 gap-8 pt-6 border-t border-gray-200 dark:border-white/5">
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-1">Full Name</label>
                                             <div className="relative shadow-sm dark:shadow-none rounded-2xl">
@@ -160,7 +160,7 @@ export default function CustomerShow({ customer }) {
                                         </div>
                                     </div>
 
-                                    <div className="py-8 border-y border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-8">
+                                    <div className="py-8 border-y border-gray-200 dark:border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-8">
                                         <div>
                                             <label className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] ml-1 mb-4 block">Priority Level</label>
                                             <div className="flex gap-3">
@@ -231,12 +231,12 @@ export default function CustomerShow({ customer }) {
                                                 onChange={e => setTagInput(e.target.value)}
                                                 onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addTag())}
                                                 placeholder="Add identifier tag..." 
-                                                className="flex-1 bg-white/[0.02] border border-white/10 rounded-2xl px-5 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all" 
+                                                className="flex-1 bg-gray-50 dark:bg-white/[0.02] border border-gray-200 dark:border-white/10 rounded-2xl px-5 py-3 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all" 
                                             />
                                             <button 
                                                 type="button" 
                                                 onClick={addTag} 
-                                                className="px-6 py-3 bg-white/5 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all border border-white/10"
+                                                className="px-6 py-3 bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-gray-200 dark:hover:bg-white/10 transition-all border border-gray-200 dark:border-white/10"
                                             >
                                                 Add
                                             </button>
@@ -265,24 +265,24 @@ export default function CustomerShow({ customer }) {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 }}
-                            className="bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl"
+                            className="bg-white dark:bg-white/[0.03] backdrop-blur-md border border-gray-200 dark:border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl"
                         >
-                            <div className="px-10 py-6 border-b border-white/5 flex items-center justify-between bg-white/[0.01]">
+                            <div className="px-10 py-6 border-b border-gray-200 dark:border-white/5 flex items-center justify-between bg-gray-50/50 dark:bg-white/[0.01]">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400">
                                         <History size={18} />
                                     </div>
-                                    <h3 className="text-white font-serif font-bold text-lg tracking-tight">Interaction History</h3>
+                                    <h3 className="text-gray-900 dark:text-white font-serif font-bold text-lg tracking-tight">Interaction History</h3>
                                 </div>
-                                <span className="text-[10px] font-bold text-gray-500 bg-white/5 px-4 py-1.5 rounded-full uppercase tracking-[0.2em] border border-white/5">
+                                <span className="text-[10px] font-bold text-gray-500 bg-gray-100 dark:bg-white/5 px-4 py-1.5 rounded-full uppercase tracking-[0.2em] border border-gray-200 dark:border-white/5">
                                     {customer.tickets?.length || 0} Tickets
                                 </span>
                             </div>
                             
-                            <div className="divide-y divide-white/5">
+                            <div className="divide-y divide-gray-100 dark:divide-white/5">
                                 {customer.tickets?.length === 0 && (
                                     <div className="px-10 py-20 text-center">
-                                        <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto text-gray-700 mb-4">
+                                        <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center mx-auto text-gray-400 dark:text-gray-700 mb-4">
                                             <Inbox size={32} />
                                         </div>
                                         <p className="text-[10px] font-bold text-gray-600 uppercase tracking-[0.3em]">No interaction history detected</p>
@@ -292,14 +292,14 @@ export default function CustomerShow({ customer }) {
                                     <Link 
                                         key={t.id} 
                                         href={route('tickets.show', t.id)} 
-                                        className="flex flex-col md:flex-row md:items-center gap-6 px-10 py-6 hover:bg-white/[0.02] transition-colors group"
+                                        className="flex flex-col md:flex-row md:items-center gap-6 px-10 py-6 hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors group"
                                     >
-                                        <div className="w-14 h-14 rounded-2xl bg-white/5 flex flex-col items-center justify-center border border-white/5 group-hover:bg-amber-500/10 group-hover:border-amber-500/20 transition-all">
+                                        <div className="w-14 h-14 rounded-2xl bg-gray-100 dark:bg-white/5 flex flex-col items-center justify-center border border-gray-200 dark:border-white/5 group-hover:bg-amber-500/10 group-hover:border-amber-500/20 transition-all">
                                             <span className="text-[9px] font-bold text-gray-600 group-hover:text-amber-500 transition-colors uppercase tracking-tighter">REF</span>
-                                            <span className="text-sm font-bold text-white group-hover:text-amber-500 transition-colors">#{t.id}</span>
+                                            <span className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-amber-500 transition-colors">#{t.id}</span>
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-base font-bold text-white group-hover:text-amber-500 transition-colors truncate">
+                                            <p className="text-base font-bold text-gray-900 dark:text-white group-hover:text-amber-500 transition-colors truncate">
                                                 {t.subject}
                                             </p>
                                             <div className="flex items-center gap-4 mt-1.5">
@@ -317,7 +317,7 @@ export default function CustomerShow({ customer }) {
                                             <span className={`text-[9px] px-4 py-2 rounded-xl font-bold uppercase tracking-[0.2em] border ${STATUS_COLORS[t.status] || STATUS_COLORS.open}`}>
                                                 {t.status}
                                             </span>
-                                            <ArrowRight size={18} className="text-gray-700 group-hover:text-white transition-colors" />
+                                            <ArrowRight size={18} className="text-gray-400 dark:text-gray-700 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" />
                                         </div>
                                     </Link>
                                 ))}
@@ -331,42 +331,42 @@ export default function CustomerShow({ customer }) {
                         <motion.div 
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            className="bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-[2.5rem] p-8 shadow-2xl space-y-8 sticky top-6"
+                            className="bg-white dark:bg-white/[0.03] backdrop-blur-md border border-gray-200 dark:border-white/10 rounded-[2.5rem] p-8 shadow-2xl space-y-8 sticky top-6"
                         >
                             <div className="flex items-center gap-3">
                                 <div className="p-2 rounded-xl bg-amber-500/10 text-amber-500">
                                     <Activity size={18} />
                                 </div>
-                                <h3 className="text-xs font-bold text-white uppercase tracking-[0.2em]">Customer Insights</h3>
+                                <h3 className="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-[0.2em]">Customer Insights</h3>
                             </div>
                             
                             <div className="space-y-4">
-                                <div className="p-6 bg-white/[0.02] border border-white/5 rounded-3xl space-y-4 group hover:bg-white/[0.04] transition-all">
+                                <div className="p-6 bg-gray-50 dark:bg-white/[0.02] border border-gray-200 dark:border-white/5 rounded-3xl space-y-4 group hover:bg-gray-100 dark:hover:bg-white/[0.04] transition-all">
                                     <div className="flex items-center gap-4">
                                         <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
                                             <Calendar size={20} />
                                         </div>
                                         <div>
-                                            <p className="text-[9px] font-bold text-gray-600 uppercase tracking-widest">Client Since</p>
-                                            <p className="text-sm font-bold text-white">{new Date(customer.created_at).toLocaleDateString()}</p>
+                                            <p className="text-[9px] font-bold text-gray-500 dark:text-gray-600 uppercase tracking-widest">Client Since</p>
+                                            <p className="text-sm font-bold text-gray-900 dark:text-white">{new Date(customer.created_at).toLocaleDateString()}</p>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <div className="p-6 bg-white/[0.02] border border-white/5 rounded-3xl space-y-4 group hover:bg-white/[0.04] transition-all">
+                                <div className="p-6 bg-gray-50 dark:bg-white/[0.02] border border-gray-200 dark:border-white/5 rounded-3xl space-y-4 group hover:bg-gray-100 dark:hover:bg-white/[0.04] transition-all">
                                     <div className="flex items-center gap-4">
                                         <div className="w-10 h-10 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center">
                                             <Ticket size={20} />
                                         </div>
                                         <div>
-                                            <p className="text-[9px] font-bold text-gray-600 uppercase tracking-widest">Total Lifecycle</p>
-                                            <p className="text-sm font-bold text-white">{customer.tickets?.length || 0} Tickets</p>
+                                            <p className="text-[9px] font-bold text-gray-500 dark:text-gray-600 uppercase tracking-widest">Total Lifecycle</p>
+                                            <p className="text-sm font-bold text-gray-900 dark:text-white">{customer.tickets?.length || 0} Tickets</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <hr className="border-white/5" />
+                            <hr className="border-gray-200 dark:border-white/5" />
 
                             <div className="space-y-6">
                                 <div className="flex items-center gap-2">
@@ -374,8 +374,8 @@ export default function CustomerShow({ customer }) {
                                     <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">CRM Synchronization</h4>
                                 </div>
                                 
-                                <div className="p-5 bg-[#0a0a0a] rounded-2xl border border-white/5 space-y-3">
-                                    <p className="text-[9px] font-bold text-gray-600 uppercase tracking-widest">GHL Record Identity</p>
+                                <div className="p-5 bg-gray-50 dark:bg-[#0a0a0a] rounded-2xl border border-gray-200 dark:border-white/5 space-y-3">
+                                    <p className="text-[9px] font-bold text-gray-500 dark:text-gray-600 uppercase tracking-widest">GHL Record Identity</p>
                                     <div className="flex items-center justify-between gap-4">
                                         <code className="text-[11px] text-blue-400 font-mono break-all leading-tight">
                                             {customer.external_ids?.ghl_opportunity_id || 'NOT_SYNCED'}
