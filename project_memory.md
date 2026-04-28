@@ -41,6 +41,12 @@ This document serves as the "AI Memory" for the Moe Limo project. When starting 
   - Full Agent & Customer CRUD.
   - Multi-source Inbound (Email, GHL Opportunity, SMS).
   - SLA & Alerting system with custom thresholds/colors.
+  - **Seeder Overhaul:** All seed data is now in English with limo-business-relevant content.
+    - `TicketFactory`: 20 curated English subjects (airport pickups, weddings, billing, corporate accounts, etc.).
+    - `TicketMessageFactory`: 26 realistic English messages (10 customer, 10 agent, 6 internal notes).
+    - `DatabaseSeeder`: Added 5 dedicated GHL Opportunity tickets and 6 SMS/Text Alert tickets, each with full conversation threads.
+    - Sources in factory narrowed to `email`/`manual`; GHL (`ghl`) and SMS (`sms`) tickets are created explicitly in the seeder.
+  - **Bug Fix:** Added missing `Star` and `Coffee` icon imports in `Customers/Index.jsx` (was causing `ReferenceError` crash on the customer page).
 - **Next Potential Epics:**
   - Native Web Push Notifications (VAPID) - INTEGRATED.
   - Advanced reporting and analytics.
