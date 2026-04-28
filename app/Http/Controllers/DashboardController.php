@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function index(\Illuminate\Http\Request $request)
     {
-        $dateRange = $request->input('date_range', 'today');
+        $dateRange = $request->input('date_range', 'all');
         $query = Ticket::query();
 
         // Apply date filter
@@ -23,6 +23,7 @@ class DashboardController extends Controller
         } elseif ($dateRange === 'month') {
             $query->where('created_at', '>=', now()->subMonth());
         }
+        // 'all' applies no date filter
 
         // Stats
         $totalTickets = (clone $query)->count();

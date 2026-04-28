@@ -80,6 +80,7 @@ export default function Dashboard({ stats, charts, recentTickets, agentStats, sl
                         onChange={(e) => handleDateFilter(e.target.value)}
                         className="bg-transparent border-none text-xs font-bold text-gray-700 dark:text-gray-300 focus:ring-0 cursor-pointer uppercase tracking-wider"
                     >
+                        <option value="all">All Time</option>
                         <option value="today">Today</option>
                         <option value="yesterday">Yesterday</option>
                         <option value="week">Last 7 Days</option>
